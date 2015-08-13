@@ -22,6 +22,9 @@
 %\rfoot{}
 %\pagestyle{fancy}
 
+\newcommand{\todo}[2]{{\textcolor{red}{\bf [#1] #2 }}}
+\newcommand{\note}[1]{{\textcolor{blue}{[#1]}}}
+
 \begin{document}
 
 \title{Speech recognizer for North Sami} \author{Juho Leinonen \and Peter Smit\footnote{Contact this person, not first author} \and Mikko Kurimo} \maketitle
@@ -32,15 +35,18 @@
 
 Speech recognition \cite{huang2001spoken}. North Sami. Under-resourced languages. (DigiSami \& WikiTalk \cite{wilcock2013wikitalk}\cite{jokinen2014multimodal}\cite{jokinen2014open})
 
-North Sami is the largest of the nine Sami languages with about 20 000 speakers. It is a morphologically rich language like other languages in the Uralic group, as such it suffers from the same issues Finnish speech recognition suffers, inflection and cases adding many variations of the word to the lexicon. North Sami is also an under-resourced language, so it is not feasible to collect enough data to have a corpus that contains natural occurrences of the different forms the word can have. Another issue is the lack of expert help, for instance there is not enough resources to build a proper pronunciation dictionary for Sami, and therefore here, and in other model training faces, this paper introduces useful generalizations and unsupervised learning as techniques that could be applied to other under-resourced languages as well.
+North Sami is the largest of the nine Sami languages with about 20 000 speakers. \todo{Juho}{Cite}  It is a morphologically rich language like other languages in the Uralic group, as such it suffers from the same issues Finnish speech recognition suffers, inflection and cases adding many variations of the word to the lexicon. North Sami is also an under-resourced language, so it is not feasible to collect enough data to have a corpus that contains natural occurrences of the different forms the word can have. Another issue is the lack of expert help, for instance there is not enough resources to build a proper pronunciation dictionary for Sami, and therefore here, and in other model training faces, this paper introduces useful generalizations and unsupervised learning as techniques that could be applied to other under-resourced languages as well.
 
 Words are the most common unit for n-gram language models, and they work very well for analytic and isolating languages such as English. But as already explained, they might not be the best choice for synthetic languages such as Finnish, Estonian or Sami. In these type of languages information is mostly added to the stem of the word, instead of prepositions etc. Because of this translating one Finnish word might result in many English ones, for example TELL AN EXAMPLE. For this reason, using segmented word fragments called morphs was considered as a language model unit for the recognizer. Morphs get their name from morpheme, which is the smallest grammatical unit of a language. In this paper both unsupervised and supervised learning for the optimal segmentation was tested, which resulted in morphs that represented grammatical segmentation, and ones that were generated to purely optimize the cost function of the segmentation tool, Morfessor Baseline 2.0 \cite{virpioja2013morfessor}. 
 
 Both these new language model units and words are compared to see which produces the best results in terms of error rates, both word error rate (WER) and letter error rate (LER). To make the results somewhat comparable, the total size of the language model will be restricted. This article will go over the process of building a speaker-dependent speech recognizer for Sami, for which an optimal language model will the be built.
 
-\section{The speech recognition system}
+\section{Tools used}
+
+\note{we don't have to explain acoustic modeling, language modelling etc. We do need to tell what recognizer we used (AaltoASR) and what features it has (MFCC's, Gaussian-mixture HMM's, type of decoder). Same for language modeling tools}
 
 Acoustic modelling, language modelling (more next chapter), lexicon, the decoder.
+
 
 
 \subsection{Acoustic modelling}
@@ -51,9 +57,6 @@ Aalto university's speech recognizer is like most speech recognizers in the sens
 
 Maybe just a little bit of something, most in the actual section.
 
-\subsection{Lexicon /\ pronunciation dictionary}
-
-maybe more carefully if needed. These people might actually want to see the letter-to-IPA-AaltoASR phoneme table?
 
 \subsection{Decoding}
 
@@ -64,6 +67,17 @@ The decoder used in AaltoASR is a "one-pass time-synchronous decoder using re-en
 n-gram, lexicon, words, morphs, morfessor. 
 
 N-gram word models are the most popular method for language modelling. They will also be used here, except using morphs instead of words will also be tested. Since in Sami the amount of word types rises very quickly with increasing corpus size (maybe tests about this with the larger corpus?), limiting the vocabulary might become needed, so tests are done to see its effect on the error rates, and n-gram amounts (speed). For segmenting words into morphs both supervised and unsupervised methods are tested.
+
+
+
+\section{Dealing with under-resourced ness}
+
+\subsection{Lexicon /\ pronunciation dictionary}
+
+maybe more carefully if needed. These people might actually want to see the letter-to-IPA-AaltoASR phoneme table?
+
+
+
 
 \subsection{Words}
 
@@ -83,15 +97,15 @@ L(\theta, D_W)=-log p(\theta)-log p(D_W|\theta)
 
 The training and decoding can be done with the Viterbi algorithm.
 
-\section{Experiments} 
+\section{Sami recognizer results} 
 
-\section{Results}
-
-\section{Discussion}
+\section{Comparison to other comparable languages recognizers}
 
 \section{Conclusions} 
 
 \section{Acknowledgements} 
+We acknowledge the computational resources provided by the   Aalto Science-IT project.
+
 
 \bibliographystyle{unsrt}
 \bibliography{mybib} 
