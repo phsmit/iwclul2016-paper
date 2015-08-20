@@ -12,7 +12,7 @@
 \usepackage{color}
 \usepackage{fancyhdr}
 \usepackage{expex}
-
+\usepackage{bm}
 
 \usepackage[left=1.65cm,right=1.65cm,top=2cm,bottom=2cm]{geometry}
 %\chead{\textsc{\small }}
@@ -33,44 +33,46 @@
 
 \section{Introduction}
 
-Speech recognition \cite{huang2001spoken}. North Sami. Under-resourced languages. (DigiSami \& WikiTalk \cite{wilcock2013wikitalk}\cite{jokinen2014multimodal}\cite{jokinen2014open})
+(DigiSami \& WikiTalk \cite{wilcock2013wikitalk}\cite{jokinen2014multimodal}\cite{jokinen2014open})
 
-North Sami is the largest of the nine Sami languages with about 20 000 speakers. \todo{Juho}{Cite}  It is a morphologically rich language like other languages in the Uralic group, as such it suffers from the same issues Finnish speech recognition suffers, inflection and cases adding many variations of the word to the lexicon. North Sami is also an under-resourced language, so it is not feasible to collect enough data to have a corpus that contains natural occurrences of the different forms the word can have. Another issue is the lack of expert help, for instance there is not enough resources to build a proper pronunciation dictionary for Sami, and therefore here, and in other model training faces, this paper introduces useful generalizations and unsupervised learning as techniques that could be applied to other under-resourced languages as well.
+This paper introduces a new speech recognizer for North Sami, the largest of the nine Sami languages with about 20 000 speakers. \todo{Juho}{Cite}  Sami is a morphologically rich language in the Uralic group, and consequently it suffers from the same issues as Finnish speech recognition: inflection and compounding add a huge number of words to the lexicon. North Sami is also an under-resourced language, so it is not feasible to collect enough data for a corpus that contains natural occurrences of all the different word forms. Another issue is the lack of expert help, for instance there is not enough resources to build a proper pronunciation dictionary for Sami, and therefore here, and in other model training phases, this paper introduces useful generalizations and unsupervised learning as techniques that could be applied to other under-resourced languages as well.
 
-Words are the most common unit for n-gram language models, and they work very well for analytic and isolating languages such as English. But as already explained, they might not be the best choice for synthetic languages such as Finnish, Estonian or Sami. In these type of languages information is mostly added to the stem of the word, instead of prepositions etc. Because of this translating one Finnish word might result in many English ones, for example TELL AN EXAMPLE. For this reason, using segmented word fragments called morphs was considered as a language model unit for the recognizer. Morphs get their name from morpheme, which is the smallest grammatical unit of a language. In this paper both unsupervised and supervised learning for the optimal segmentation was tested, which resulted in morphs that represented grammatical segmentation, and ones that were generated to purely optimize the cost function of the segmentation tool, Morfessor Baseline 2.0 \cite{virpioja2013morfessor}. 
+Words are the most common unit for n-gram language models, and they work very well for analytic and isolating languages such as English. However, they are not the best choice for synthetic languages such as Finnish, Estonian or Sami. In these type of languages additional information is mostly added to the stem of the word, instead of using prepositions, postpositions or other parts of speech. Therefore, conferring information that might take many English words could be done with just one in Sami, for example TELL AN EXAMPLE. Thus, using segmented word fragments called morphs was tested as a language model unit for the recognizer. Morphs get their name from morpheme, which is the smallest grammatical unit of a language. In this paper both unsupervised and supervised learning for the optimal segmentation was tested, which resulted in morphs that represented grammatical segmentation, and ones that were generated to purely optimize the cost function of the segmentation tool, Morfessor Baseline 2.0 \cite{virpioja2013morfessor}. 
 
-Both these new language model units and words are compared to see which produces the best results in terms of error rates, both word error rate (WER) and letter error rate (LER). To make the results somewhat comparable, the total size of the language model will be restricted. This article will go over the process of building a speaker-dependent speech recognizer for Sami, for which an optimal language model will the be built.
+Both these new language model units and words are compared to see which produces the best results in terms of error rates, both word error rate (WER) and letter error rate (LER). To make the results somewhat comparable, the total size of the language model will be restricted.
 
 \section{Tools used}
 
 \note{we don't have to explain acoustic modeling, language modelling etc. We do need to tell what recognizer we used (AaltoASR) and what features it has (MFCC's, Gaussian-mixture HMM's, type of decoder). Same for language modeling tools}
 
-Acoustic modelling, language modelling (more next chapter), lexicon, the decoder.
 
+The system the experiments were carried out on was AaltoASR \cite{hirsimaki2009importance}\cite{pylkkonen2005efficient}. It uses context-dependent triphones with diagonal Gaussian mixture models (GMM) as emission distributions and the speech features itself are extracted with Mel-frequency cepstral coefficients (MFFCs). Variable length n-grams are used for language modelling generated with both SRILM and VariKN \cite{siivola2007growing}\cite{siivola2007morfessor}. The decoder was a one-pass using token passing principles and hence time-synchronous. In addition, beam search complemented with a language model look-ahead is applied \cite{ortmanns1997look}.
 
-
-\subsection{Acoustic modelling}
-
-Aalto university's speech recognizer is like most speech recognizers in the sense that it uses hidden Markov models (HMM) to model triphones which have use as their emission distributions Gaussian mixture models (GMM). In Finnish, which is a phonetic language, the phonemes of the triphones are generated by just assuming that every letter represents a single individual phoneme. Based on this assumption a lexicon is built. This approach is also used for Sami since it too is a phonetic language and there are not enough resources for building a proper pronunciation dictionary. 
-
-\subsection{Language modelling}
-
-Maybe just a little bit of something, most in the actual section.
-
-
-\subsection{Decoding}
-
-The decoder used in AaltoASR is a "one-pass time-synchronous decoder using re-entrant prefic-tree and token passing principle". It is optimized for Finnish but otherwise language independent. Since the main language model units in Finnish speech recognition are morphs, one problem with the decoding becomes the context-dependent phonemes at the morph boundaries, and the need create a specific model for word boundary prediction. Other issue with Finnish are the double letters for which duration modelling needs to be applied. To limit the amount of transitioning modelling between context-dependent phonemes cross-word network is embedded in the search network. \cite{pylkkonen2013towards}\cite{hirsimaki2009importance}\cite{hirsimaki2006unlimited} All of these solutions will also be used for the decoder for Sami, since morphs will also be tried for it, and it as three different vowel lengths and double consonants. A language model lookahead is also implemented to use the LM probabilities as soon as possible to prune unlikely hypothesis before applying the full computationally heavier language model. This study suggests this length, we will use this. since morphs.
-
-\section{Language modelling}
-
-n-gram, lexicon, words, morphs, morfessor. 
-
-N-gram word models are the most popular method for language modelling. They will also be used here, except using morphs instead of words will also be tested. Since in Sami the amount of word types rises very quickly with increasing corpus size (maybe tests about this with the larger corpus?), limiting the vocabulary might become needed, so tests are done to see its effect on the error rates, and n-gram amounts (speed). For segmenting words into morphs both supervised and unsupervised methods are tested.
-
+%
+%\subsection{Acoustic modelling}
+%
+%Aalto university's speech recognizer is like most speech recognizers in the sense that it uses hidden Markov models (HMM) to model triphones which have use as their emission distributions Gaussian mixture models (GMM). In Finnish, which is a phonetic language, the phonemes of the triphones are generated by just assuming that every letter represents a single individual phoneme. Based on this assumption a lexicon is built. This approach is also used for Sami since it too is a phonetic language and there are not enough resources for building a proper pronunciation dictionary. 
+%
+%\subsection{Language modelling}
+%
+%Maybe just a little bit of something, most in the actual section.
+%
+%
+%\subsection{Decoding}
+%
+%The decoder used in AaltoASR is a "one-pass time-synchronous decoder using re-entrant prefic-tree and token passing principle". It is optimized for Finnish but otherwise language independent. Since the main language model units in Finnish speech recognition are morphs, one problem with the decoding becomes the context-dependent phonemes at the morph boundaries, and the need create a specific model for word boundary prediction. Other issue with Finnish are the double letters for which duration modelling needs to be applied. To limit the amount of transitioning modelling between context-dependent phonemes cross-word network is embedded in the search network. \cite{pylkkonen2013towards}\cite{hirsimaki2006unlimited} All of these solutions will also be used for the decoder for Sami, since morphs will also be tried for it, and it as three different vowel lengths and double consonants. A language model lookahead is also implemented to use the LM probabilities as soon as possible to prune unlikely hypothesis before applying the full computationally heavier language model. This study suggests this length, we will use this. since morphs.
+%
+%\section{Language modelling}
+%
+%n-gram, lexicon, words, morphs, morfessor. 
+%
+%N-gram word models are the most popular method for language modelling. They will also be used here, except using morphs instead of words will also be tested. Since in Sami the amount of word types rises very quickly with increasing corpus size (maybe tests about this with the larger corpus?), limiting the vocabulary might become needed, so tests are done to see its effect on the error rates, and n-gram amounts (speed). For segmenting words into morphs both supervised and unsupervised methods are tested.
+%
 
 
 \section{Dealing with under-resourced ness}
+
+
 
 \subsection{Lexicon /\ pronunciation dictionary}
 
@@ -81,7 +83,7 @@ maybe more carefully if needed. These people might actually want to see the lett
 
 \subsection{Words}
 
-Repetition?
+The main issue with using words as a language model unit for a synthetic language is that to decrease the out-of-vocabulary (OOV) rate to a manageable percentage, a huge lexicon is needed. Since OOV-rate is the minimum WER possible, a OOV-rate much less than 10\% would be necessary. For an English speech recognizer this can be achieved with already with 20 000 words for OOV-rate of 2.4-2.7\% and with a vocabulary of 40 000 words OOV-rate less than one percent is achieved \cite{woodland19951994}. In contrast, a Finnish recognizer needs a 410 000 word vocabulary to have an OOV-rate of 4.0-7.3\% \cite{hirsimaki2006unlimited}.
 
 \subsection{Morphs}
 
@@ -89,13 +91,21 @@ Morphs get their name from morphemes, but here they are treated as just word fra
 
 \subsubsection{Morfessor}
 
-Morfessor is tool that applies machine learning principles to segment text into smaller fragments, with the main application being segmenting words into morphs [todo: cite again hirsimaki200x or something else]. The three components of a Morfessor are the model, cost function, and training and decoding algorithms. The model contains the lexicon: properties of the morphs, the written form of the morph itself and its frequency, and the grammar: how the morphs can be combined into words. Morfessor cost function is derived from a MAP estimation with the goal of finding the optimal parameters $\theta$ given the observed training data $D_W$:
+Morfessor is tool that applies machine learning principles to segment text into smaller fragments, with the main application being segmenting words into morphs \cite{creutz2007unsupervised}. The three components of a Morfessor are the model, cost function, and training and decoding algorithms. The model contains the lexicon: properties of the morphs, the written form of the morph itself and its frequency, and the grammar: how the morphs can be combined into words. Morfessor cost function is derived from a MAP estimation with the goal of finding the optimal parameters $\bm{\theta}$ given the observed training data $\bm{D}_W$:
 
 \begin{equation}
-L(\theta, D_W)=-log p(\theta)-log p(D_W|\theta)
+\bm{\theta}_{MAP}=\operatorname*{arg\,max}_{\theta}P(\bm{\theta}|\bm{D}_W)=\operatorname*{arg\,max}_{\theta}P(\bm{\theta})P(\bm{D}_W|\bm{\theta}).
 \end{equation}
 
-The training and decoding can be done with the Viterbi algorithm.
+The cost fuction to minimize becomes the minus logarithm of the product
+
+\begin{equation}
+L(\theta, D_W)=-log p(\theta)-log p(D_W|\theta).
+\end{equation}
+
+The purpose of this is to generate a small set of morphs that represents the words in the training corpus compactly. If only letters were used as morphs the set of would be small but representing the corpus with individual words would be cumbersome. In contrast using whole words as morphs would result in a large set of morphs so the optimal solution is somewhere in between. However, individual letters are added to the morph set so even previously unseen words can always be segmented.
+
+A greedy search algorithm is used to find the optimal segmentation of morphs for the training data. One word is selected at a time and all different segmentations are tried, with the one that best improves the unsegmented part chosen and applied to all the other words. When the best model is found it is used to segment the LM training corpus with the Viterbi algorithm. This result can be used to generate n-gram models with morphs as LM units.
 
 \section{Sami recognizer results} 
 
@@ -104,7 +114,7 @@ The training and decoding can be done with the Viterbi algorithm.
 \section{Conclusions} 
 
 \section{Acknowledgements} 
-We acknowledge the computational resources provided by the   Aalto Science-IT project.
+We acknowledge the computational resources provided by the Aalto Science-IT project.
 
 
 \bibliographystyle{unsrt}
