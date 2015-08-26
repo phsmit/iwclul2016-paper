@@ -1,5 +1,9 @@
-\documentclass[10pt,b5paper]{article}
-\usepackage[utf8]{inputenc}
+\documentclass[10pt,b5paper,utf8]{article}
+%\usepackage[utf8]{inputenc}
+
+\usepackage{fontspec}
+\setmainfont{Linux Libertine O}
+
 \usepackage{amsmath}
 \usepackage{multirow}
 \usepackage{amsfonts}
@@ -78,7 +82,74 @@ The system the experiments were carried out on was AaltoASR \cite{hirsimaki2009i
 
 maybe more carefully if needed. These people might actually want to see the letter-to-IPA-AaltoASR phoneme table?
 
-
+\begin{table}[h!]
+\caption{North Sami alphabet and its representation in AaltoASR.\label{tab:graphemes}}
+\begin{center}
+ \begin{tabular}{||c c c||} 
+ \hline
+ Sami & IPA & AaltoASR phoneme \\ [0.5ex] 
+ \hline\hline
+ A a & /\textipa{A}/ & a \\ 
+ \hline
+ Á á & /\textipa{a}/ & ä \\
+ \hline
+ B b & /\textipa{b}/ & b \\
+ \hline
+ C c & /\textipa{ts}/ & ts \\
+ \hline
+ Č č & /\textipa{tS}/ & C \\
+ \hline
+ D d & /\textipa{d}/ & d \\
+ \hline
+ Đ đ & /\textipa{D}/ & D \\
+ \hline
+ E e & /\textipa{e}/ & e \\ 
+ \hline
+ F f & /\textipa{f}/ & f \\
+ \hline
+ G g & /\textipa{g}/ & g \\ 
+ \hline
+ H h & /\textipa{h}/ & h \\
+ \hline
+ I i & /\textipa{i}/ & i \\
+ \hline
+ J j & /\textipa{j}/ & j \\
+ \hline
+ K k & /\textipa{k}/ & k \\
+ \hline
+ L l & /\textipa{l}/ & l \\
+ \hline
+ M m & /\textipa{m}/ & m \\
+ \hline
+ N n & /\textipa{n}/ & n \\
+ \hline
+ Ŋ ŋ & /\textipa{N}/ & N \\
+ \hline
+ O o & /\textipa{o}/ & o \\ 
+ \hline
+ P p & /\textipa{p}/ & p \\
+ \hline
+ R r & /\textipa{r}/ & r \\ 
+ \hline
+ S s & /\textipa{s}/ & s \\
+ \hline
+ Š š & /\textipa{S}/ & S \\
+ \hline
+ T t & /\textipa{t}/ & t \\
+ \hline
+ Ŧ ŧ & /\textipa{T}/ & T \\
+ \hline
+ U u & /\textipa{u}/ & u \\
+ \hline
+ V v & /\textipa{v}/ & v \\
+ \hline
+ Z z & /\textipa{dz}/ & z \\
+ \hline
+ Ž ž & /\textipa{dZ}/ & Z \\ [1ex]
+ \hline
+\end{tabular}
+\end{center}
+\end{table}
 
 
 \subsection{Words}
