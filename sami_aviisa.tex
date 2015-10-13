@@ -14,6 +14,9 @@
 \usepackage{float}
 \usepackage{epstopdf}
 \usepackage{color}
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage{xltxtra}
 \usepackage{fancyhdr}
 \usepackage{expex}
 \usepackage{bm}
@@ -25,6 +28,12 @@
 %\cfoot{\thepage}
 %\rfoot{}
 %\pagestyle{fancy}
+
+\makeatletter
+\def\blfootnote{\gdef\@thefnmark{}\@footnotetext}
+\makeatother
+
+\setmainfont[Mapping=tex-text]{Linux Libertine O}
 
 \newcommand{\todo}[2]{{\textcolor{red}{\bf [#1] #2 }}}
 \newcommand{\note}[1]{{\textcolor{blue}{[#1]}}}
@@ -39,11 +48,53 @@
 
 (DigiSami \& WikiTalk \cite{wilcock2013wikitalk}\cite{jokinen2014multimodal}\cite{jokinen2014open})
 
+North Sami is the largest of the nine Sami languages with about 20 000 speakers. \todo{Juho}{Cite}  It is a morphologically rich language like other languages in the Uralic group, as such it suffers from the same issues Finnish speech recognition suffers, inflection and cases adding many variations of the word to the lexicon. 
+
+North Sami is also an under-resourced language. There are little corpora of spoken and written language available, and financial resources to collect these data are limited. Even though there is active linquist research on Northern Sami \todo{P}{Mention tromso and helsinki}, there are limitations to the expert resources avaible for speech recognition, such as pronunciation dictionaries.
+
+To combat the challenges of building an LVCSR system for an under-resourced language we have employed different techniques. First we used "found data" for building the acoustic and language models. For the acoustic model we needed to bootstrapped from a bigger related language (Finnish). For the language model we used subword units (morphs) to increase the coverage of the language.
+
+To project a possible upper-bound on the recognition accuracies possible for Northern Sami, we also have produced systems for Finnish and Estonian, using the same quantities of data for comparison.
+
+
+\section{Literature on under-resourcedness}
+
+\section{UNUSED TEXT}
+
 This paper introduces a new speech recognizer for North Sami, the largest of the nine Sami languages with about 20 000 speakers. \todo{Juho}{Cite}  Sami is a morphologically rich language in the Uralic group, and consequently it suffers from the same issues as Finnish speech recognition: inflection and compounding add a huge number of words to the lexicon. North Sami is also an under-resourced language, so it is not feasible to collect enough data for a corpus that contains natural occurrences of all the different word forms. Another issue is the lack of expert help, for instance there is not enough resources to build a proper pronunciation dictionary for Sami, and therefore here, and in other model training phases, this paper introduces useful generalizations and unsupervised learning as techniques that could be applied to other under-resourced languages as well.
 
 Words are the most common unit for n-gram language models, and they work very well for analytic and isolating languages such as English. However, they are not the best choice for synthetic languages such as Finnish, Estonian or Sami. In these type of languages additional information is mostly added to the stem of the word, instead of using prepositions, postpositions or other parts of speech. Therefore, conferring information that might take many English words could be done with just one in Sami, for example TELL AN EXAMPLE. Thus, using segmented word fragments called morphs was tested as a language model unit for the recognizer. Morphs get their name from morpheme, which is the smallest grammatical unit of a language. In this paper both unsupervised and supervised learning for the optimal segmentation was tested, which resulted in morphs that represented grammatical segmentation, and ones that were generated to purely optimize the cost function of the segmentation tool, Morfessor Baseline 2.0 \cite{virpioja2013morfessor}. 
 
 Both these new language model units and words are compared to see which produces the best results in terms of error rates, both word error rate (WER) and letter error rate (LER). To make the results somewhat comparable, the total size of the language model will be restricted.
+
+\section{Used data}
+
+
+\section{Acoustic Model}
+As there is only data availble from 2 speakers (one male, one female) one speaker-dependent system per speaker was build. We use standard MFCC features, with  a tristate, triphone, HMM-GMM system to model the data. The model is trained using baum-welch, maximum likelihood training and states are shared through state tying with a decision tree. The software we use is AaltoASR.
+
+As there is no full pronunciation dictionary available, we use a simple letter-to-sound mapping resulting in \todo{}{find this} phones. The decision tree questions for state tying are based on those of Finnish, with a slight modification made by a linguistic expert at Helsinki University.
+
+The data, which was in the form of long audio segments and the corresponding text is first automatically split into sentences by means of forced alignment with AaltoASR's align tool. In the first iteration a Finnish model is used, which worked reasonably well. Once a first Northern Sami model had been trained that model would it is used for forced alignment, resulting in a an almost perfect sentence based alignment.
+
+Similarly the first alignment in the baum-welch model training was done using a Finnish model for the first training run. Later training runs used the best Sami model available.
+
+
+
+
+
+\section{Language Model}
+We have trained a standard word-based ngram model with the SRILM toolkit as baseline. However, to combat the data sparsity, we also created morph-based language models, which has proven to be very beneficial for morph-based languages \todo{}{Cite our best morph papers, also lrej?}
+
+A morph-based language model is created by first splitting the source text into morphological units. We used the Morfessor tool, which can create a statistical morphological segmentation in an unsupervised manner. This segmentation is used to create n-gram language models. A split in morphological units reduces the number of types in the lexicon, but requires a greater language model context to be as effective as a word model. In agglunative languages like most uralic languages, creating a morph model causes the out-of-vocabulary rate to decrease dramatically.
+
+As normal language model tools have problems with (correctly backing off) deep n-gram language models, we also have used the specialized VariKN toolkit to create a different language model.
+
+For decoding we have used the AaltoASR decoder, which is specialized in decoding morph-language models with deep contexts.
+
+
+
+\section{Experiments}
 
 \section{Tools used}
 
@@ -186,6 +237,7 @@ A greedy search algorithm is used to find the optimal segmentation of morphs for
 
 \section{Acknowledgements} 
 We acknowledge the computational resources provided by the Aalto Science-IT project.
+
 
 
 \bibliographystyle{unsrt}
