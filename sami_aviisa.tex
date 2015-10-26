@@ -22,6 +22,8 @@
 \usepackage{expex}
 \usepackage{bm}
 
+\usepackage{subcaption}
+
 \usepackage[left=1.65cm,right=1.65cm,top=2cm,bottom=2cm]{geometry}
 %\chead{\textsc{\small }}
 %\rhead{}
@@ -39,7 +41,7 @@
 \newcommand{\todo}[2]{{\textcolor{red}{\bf [#1] #2 }}}
 \newcommand{\note}[1]{{\textcolor{blue}{[#1]}}}
 
-\newcommand{\ns}{{North Sámi}}
+\newcommand{\ns}{{North Sámi }}
 
 
 \title{Automatic Speech Recognition for  for \ns} 
@@ -75,18 +77,18 @@ The final application for the recognizer is to be deployed as part of a spoken d
 
 \section{Literature on under-resourcedness}
 
-\section{UNUSED TEXT}
+%	\section{UNUSED TEXT}
+%	
+%	This paper introduces a new speech recognizer for \ns, the largest of the nine Sami languages with about 20 000 speakers. \todo{Juho}{Cite}  Sami is a morphologically rich language in the Uralic group, and consequently it suffers from the same issues as Finnish speech recognition: inflection and compounding add a huge number of words to the lexicon. \ns is also an under-resourced language, so it is not feasible to collect enough data for a corpus that contains natural occurrences of all the different word forms. Another issue is the lack of expert help, for instance there is not enough resources to build a proper pronunciation dictionary for Sami, and therefore here, and in other model training phases, this paper introduces useful generalizations and unsupervised learning as techniques that could be applied to other under-resourced languages as well.
+%	
+%	Words are the most common unit for n-gram language models, and they work very well for analytic and isolating languages such as English. However, they are not the best choice for synthetic languages such as Finnish, Estonian or Sami. In these type of languages additional information is mostly added to the stem of the word, instead of using prepositions, postpositions or other parts of speech. Therefore, conferring information that might take many English words could be done with just one in Sami, for example TELL AN EXAMPLE. Thus, using segmented word fragments called morphs was tested as a language model unit for the recognizer. Morphs get their name from morpheme, which is the smallest grammatical unit of a language. In this paper both unsupervised and supervised learning for the optimal segmentation was tested, which resulted in morphs that represented grammatical segmentation, and ones that were generated to purely optimize the cost function of the segmentation tool, Morfessor Baseline 2.0 \cite{virpioja2013morfessor}. 
+%	
+%	Both these new language model units and words are compared to see which produces the best results in terms of error rates, both word error rate (WER) and letter error rate (LER). To make the results somewhat comparable, the total size of the language model will be restricted.
+%	
+%	\section{Used data}
 
-This paper introduces a new speech recognizer for \ns, the largest of the nine Sami languages with about 20 000 speakers. \todo{Juho}{Cite}  Sami is a morphologically rich language in the Uralic group, and consequently it suffers from the same issues as Finnish speech recognition: inflection and compounding add a huge number of words to the lexicon. \ns is also an under-resourced language, so it is not feasible to collect enough data for a corpus that contains natural occurrences of all the different word forms. Another issue is the lack of expert help, for instance there is not enough resources to build a proper pronunciation dictionary for Sami, and therefore here, and in other model training phases, this paper introduces useful generalizations and unsupervised learning as techniques that could be applied to other under-resourced languages as well.
 
-Words are the most common unit for n-gram language models, and they work very well for analytic and isolating languages such as English. However, they are not the best choice for synthetic languages such as Finnish, Estonian or Sami. In these type of languages additional information is mostly added to the stem of the word, instead of using prepositions, postpositions or other parts of speech. Therefore, conferring information that might take many English words could be done with just one in Sami, for example TELL AN EXAMPLE. Thus, using segmented word fragments called morphs was tested as a language model unit for the recognizer. Morphs get their name from morpheme, which is the smallest grammatical unit of a language. In this paper both unsupervised and supervised learning for the optimal segmentation was tested, which resulted in morphs that represented grammatical segmentation, and ones that were generated to purely optimize the cost function of the segmentation tool, Morfessor Baseline 2.0 \cite{virpioja2013morfessor}. 
-
-Both these new language model units and words are compared to see which produces the best results in terms of error rates, both word error rate (WER) and letter error rate (LER). To make the results somewhat comparable, the total size of the language model will be restricted.
-
-\section{Used data}
-
-
-\section{Acoustic Model}
+\section{Acoustic modeling}
 As there is only data availble from 2 speakers (one male, one female) one speaker-dependent system per speaker was build. We use standard MFCC features, with  a tristate, triphone, HMM-GMM system to model the data. The model is trained using baum-welch, maximum likelihood training and states are shared through state tying with a decision tree. The software we use is AaltoASR.
 
 As there is no full pronunciation dictionary available, we use a simple letter-to-sound mapping resulting in \todo{}{find this} phones. The decision tree questions for state tying are based on those of Finnish, with a slight modification made by a linguistic expert at Helsinki University.
@@ -96,10 +98,37 @@ The data, which was in the form of long audio segments and the corresponding tex
 Similarly the first alignment in the baum-welch model training was done using a Finnish model for the first training run. Later training runs used the best Sami model available.
 
 
+\section{Language modeling}
+
+\subsection{Words}
+
+The main issue with using words as a language model unit for a synthetic language is that to decrease the out-of-vocabulary (OOV) rate to a manageable percentage, a huge lexicon is needed. Since OOV-rate is the minimum WER possible, a OOV-rate much less than 10\% would be necessary. For an English speech recognizer this can be achieved with already with 20 000 words for OOV-rate of 2.4-2.7\% and with a vocabulary of 40 000 words OOV-rate less than one percent is achieved \cite{woodland19951994}. In contrast, a Finnish recognizer needs a 410 000 word vocabulary to have an OOV-rate of 4.0-7.3\% \cite{hirsimaki2006unlimited}.
+
+\subsection{Morphs}
+
+Morphs get their name from morphemes, but here they are treated as just word fragments. The size of a word can be anything from a single letter to a whole word. While with words collecting them to a lexicon is a simple task of just gathering every individual word, and if need be limiting by maybe amount of occurances, a special tool is used to gathering from a corpus and then segmenting to them.
+
+\subsubsection{Morfessor}
+
+Morfessor is tool that applies machine learning principles to segment text into smaller fragments, with the main application being segmenting words into morphs \cite{creutz2007unsupervised}. The three components of a Morfessor are the model, cost function, and training and decoding algorithms. The model contains the lexicon: properties of the morphs, the written form of the morph itself and its frequency, and the grammar: how the morphs can be combined into words. Morfessor cost function is derived from a MAP estimation with the goal of finding the optimal parameters $\bm{\theta}$ given the observed training data $\bm{D}_W$:
+
+\begin{equation}
+\bm{\theta}_{MAP}=\operatorname*{arg\,max}_{\theta}P(\bm{\theta}|\bm{D}_W)=\operatorname*{arg\,max}_{\theta}P(\bm{\theta})P(\bm{D}_W|\bm{\theta}).
+\end{equation}
+
+The cost fuction to minimize becomes the minus logarithm of the product
+
+\begin{equation}
+L(\theta, D_W)=-log p(\theta)-log p(D_W|\theta).
+\end{equation}
+
+The purpose of this is to generate a small set of morphs that represents the words in the training corpus compactly. If only letters were used as morphs the set of would be small but representing the corpus with individual words would be cumbersome. In contrast using whole words as morphs would result in a large set of morphs so the optimal solution is somewhere in between. However, individual letters are added to the morph set so even previously unseen words can always be segmented.
+
+A greedy search algorithm is used to find the optimal segmentation of morphs for the training data. One word is selected at a time and all different segmentations are tried, with the one that best improves the unsegmented part chosen and applied to all the other words. When the best model is found it is used to segment the LM training corpus with the Viterbi algorithm. This result can be used to generate n-gram models with morphs as LM units.
 
 
 
-\section{Language Model}
+\subsection{N-gram modeling}
 We have trained a standard word-based ngram model with the SRILM toolkit as baseline. However, to combat the data sparsity, we also created morph-based language models, which has proven to be very beneficial for morph-based languages \todo{}{Cite our best morph papers, also lrej?}
 
 A morph-based language model is created by first splitting the source text into morphological units. We used the Morfessor tool, which can create a statistical morphological segmentation in an unsupervised manner. This segmentation is used to create n-gram language models. A split in morphological units reduces the number of types in the lexicon, but requires a greater language model context to be as effective as a word model. In agglunative languages like most uralic languages, creating a morph model causes the out-of-vocabulary rate to decrease dramatically.
@@ -145,105 +174,81 @@ The system the experiments were carried out on was AaltoASR \cite{hirsimaki2009i
 
 
 
-\subsection{Lexicon /\ pronunciation dictionary}
+%\subsection{Lexicon /\ pronunciation dictionary}
+%
+%maybe more carefully if needed. These people might actually want to see the letter-to-IPA-AaltoASR phoneme table?
+%
+%\begin{table}[h!]
+%\caption{\ns alphabet and its representation in AaltoASR.\label{tab:graphemes}}
+%\begin{center}
+% \begin{tabular}{||c c c||} 
+% \hline
+% Sami & IPA & AaltoASR phoneme \\ [0.5ex] 
+% \hline\hline
+% A a & /\textipa{A}/ & a \\ 
+% \hline
+% Á á & /\textipa{a}/ & ä \\
+% \hline
+% B b & /\textipa{b}/ & b \\
+% \hline
+% C c & /\textipa{ts}/ & ts \\
+% \hline
+% Č č & /\textipa{tS}/ & C \\
+% \hline
+% D d & /\textipa{d}/ & d \\
+% \hline
+% Đ đ & /\textipa{D}/ & D \\
+% \hline
+% E e & /\textipa{e}/ & e \\ 
+% \hline
+% F f & /\textipa{f}/ & f \\
+% \hline
+% G g & /\textipa{g}/ & g \\ 
+% \hline
+% H h & /\textipa{h}/ & h \\
+% \hline
+% I i & /\textipa{i}/ & i \\
+% \hline
+% J j & /\textipa{j}/ & j \\
+% \hline
+% K k & /\textipa{k}/ & k \\
+% \hline
+% L l & /\textipa{l}/ & l \\
+% \hline
+% M m & /\textipa{m}/ & m \\
+% \hline
+% N n & /\textipa{n}/ & n \\
+% \hline
+% Ŋ ŋ & /\textipa{N}/ & N \\
+% \hline
+% O o & /\textipa{o}/ & o \\ 
+% \hline
+% P p & /\textipa{p}/ & p \\
+% \hline
+% R r & /\textipa{r}/ & r \\ 
+% \hline
+% S s & /\textipa{s}/ & s \\
+% \hline
+% Š š & /\textipa{S}/ & S \\
+% \hline
+% T t & /\textipa{t}/ & t \\
+% \hline
+% Ŧ ŧ & /\textipa{T}/ & T \\
+% \hline
+% U u & /\textipa{u}/ & u \\
+% \hline
+% V v & /\textipa{v}/ & v \\
+% \hline
+% Z z & /\textipa{dz}/ & z \\
+% \hline
+% Ž ž & /\textipa{dZ}/ & Z \\ [1ex]
+% \hline
+%\end{tabular}
+%\end{center}
+%\end{table}
+%
+%
 
-maybe more carefully if needed. These people might actually want to see the letter-to-IPA-AaltoASR phoneme table?
-
-\begin{table}[h!]
-\caption{\ns alphabet and its representation in AaltoASR.\label{tab:graphemes}}
-\begin{center}
- \begin{tabular}{||c c c||} 
- \hline
- Sami & IPA & AaltoASR phoneme \\ [0.5ex] 
- \hline\hline
- A a & /\textipa{A}/ & a \\ 
- \hline
- Á á & /\textipa{a}/ & ä \\
- \hline
- B b & /\textipa{b}/ & b \\
- \hline
- C c & /\textipa{ts}/ & ts \\
- \hline
- Č č & /\textipa{tS}/ & C \\
- \hline
- D d & /\textipa{d}/ & d \\
- \hline
- Đ đ & /\textipa{D}/ & D \\
- \hline
- E e & /\textipa{e}/ & e \\ 
- \hline
- F f & /\textipa{f}/ & f \\
- \hline
- G g & /\textipa{g}/ & g \\ 
- \hline
- H h & /\textipa{h}/ & h \\
- \hline
- I i & /\textipa{i}/ & i \\
- \hline
- J j & /\textipa{j}/ & j \\
- \hline
- K k & /\textipa{k}/ & k \\
- \hline
- L l & /\textipa{l}/ & l \\
- \hline
- M m & /\textipa{m}/ & m \\
- \hline
- N n & /\textipa{n}/ & n \\
- \hline
- Ŋ ŋ & /\textipa{N}/ & N \\
- \hline
- O o & /\textipa{o}/ & o \\ 
- \hline
- P p & /\textipa{p}/ & p \\
- \hline
- R r & /\textipa{r}/ & r \\ 
- \hline
- S s & /\textipa{s}/ & s \\
- \hline
- Š š & /\textipa{S}/ & S \\
- \hline
- T t & /\textipa{t}/ & t \\
- \hline
- Ŧ ŧ & /\textipa{T}/ & T \\
- \hline
- U u & /\textipa{u}/ & u \\
- \hline
- V v & /\textipa{v}/ & v \\
- \hline
- Z z & /\textipa{dz}/ & z \\
- \hline
- Ž ž & /\textipa{dZ}/ & Z \\ [1ex]
- \hline
-\end{tabular}
-\end{center}
-\end{table}
-
-
-\subsection{Words}
-
-The main issue with using words as a language model unit for a synthetic language is that to decrease the out-of-vocabulary (OOV) rate to a manageable percentage, a huge lexicon is needed. Since OOV-rate is the minimum WER possible, a OOV-rate much less than 10\% would be necessary. For an English speech recognizer this can be achieved with already with 20 000 words for OOV-rate of 2.4-2.7\% and with a vocabulary of 40 000 words OOV-rate less than one percent is achieved \cite{woodland19951994}. In contrast, a Finnish recognizer needs a 410 000 word vocabulary to have an OOV-rate of 4.0-7.3\% \cite{hirsimaki2006unlimited}.
-
-\subsection{Morphs}
-
-Morphs get their name from morphemes, but here they are treated as just word fragments. The size of a word can be anything from a single letter to a whole word. While with words collecting them to a lexicon is a simple task of just gathering every individual word, and if need be limiting by maybe amount of occurances, a special tool is used to gathering from a corpus and then segmenting to them.
-
-\subsubsection{Morfessor}
-
-Morfessor is tool that applies machine learning principles to segment text into smaller fragments, with the main application being segmenting words into morphs \cite{creutz2007unsupervised}. The three components of a Morfessor are the model, cost function, and training and decoding algorithms. The model contains the lexicon: properties of the morphs, the written form of the morph itself and its frequency, and the grammar: how the morphs can be combined into words. Morfessor cost function is derived from a MAP estimation with the goal of finding the optimal parameters $\bm{\theta}$ given the observed training data $\bm{D}_W$:
-
-\begin{equation}
-\bm{\theta}_{MAP}=\operatorname*{arg\,max}_{\theta}P(\bm{\theta}|\bm{D}_W)=\operatorname*{arg\,max}_{\theta}P(\bm{\theta})P(\bm{D}_W|\bm{\theta}).
-\end{equation}
-
-The cost fuction to minimize becomes the minus logarithm of the product
-
-\begin{equation}
-L(\theta, D_W)=-log p(\theta)-log p(D_W|\theta).
-\end{equation}
-
-The purpose of this is to generate a small set of morphs that represents the words in the training corpus compactly. If only letters were used as morphs the set of would be small but representing the corpus with individual words would be cumbersome. In contrast using whole words as morphs would result in a large set of morphs so the optimal solution is somewhere in between. However, individual letters are added to the morph set so even previously unseen words can always be segmented.
-
-A greedy search algorithm is used to find the optimal segmentation of morphs for the training data. One word is selected at a time and all different segmentations are tried, with the one that best improves the unsegmented part chosen and applied to all the other words. When the best model is found it is used to segment the LM training corpus with the Viterbi algorithm. This result can be used to generate n-gram models with morphs as LM units.
 
 \section{Sami recognizer results} 
 \begin{table}[h!]
@@ -255,27 +260,123 @@ Male & 3.5 hours\\
 \end{table}
 
 \begin{figure}[h!]
-\includegraphics[width=.6\textwidth]{figures/smeF-complete_wikipedia-ler}
+\centering
+\begin{subfigure}[b]{.4\textwidth}
+
+\includegraphics[width=\textwidth]{figures/smeF-complete_wikipedia-ler}
 \caption{Female data - letter error rate}
-\end{figure}
-
-\begin{figure}[h!]
-\includegraphics[width=.6\textwidth]{figures/smeF-complete_wikipedia-wer}
+\end{subfigure}~
+\begin{subfigure}[b]{.4\textwidth}
+\includegraphics[width=\textwidth]{figures/smeF-complete_wikipedia-wer}
 \caption{Female data - word error rate}
-\end{figure}
+\end{subfigure}
 
-\begin{figure}[h!]
-\includegraphics[width=.6\textwidth]{figures/smeM-complete_wikipedia-ler}
+\begin{subfigure}[b]{.4\textwidth}
+\includegraphics[width=\textwidth]{figures/smeM-complete_wikipedia-ler}
 \caption{Male data - letter error rate}
-\end{figure}
-
-\begin{figure}[h!]
-\includegraphics[width=.6\textwidth]{figures/smeM-complete_wikipedia-wer}
+\end{subfigure}~
+\begin{subfigure}[b]{.4\textwidth}
+\includegraphics[width=\textwidth]{figures/smeM-complete_wikipedia-wer}
 \caption{Male data - word error rate}
+\end{subfigure}
+
 \end{figure}
 
 \section{Comparsion of low-resource systems for multiple languages}
-To compare the results of the \ns recognizer 
+To compare the results of the \ns recognizer with recognizers in different languages we first trained speaker dependent models for both Finnish and Estonian audiobooks. The available audio datasets are described in Table~\ref{tbl:amdatacomp} and the available text corpora in Table~\ref{tbl:lmdatacomp}.
+
+
+\begin{table}[h!]
+
+\begin{tabular}{llllr}
+ & \textbf{Language} & \textbf{Gender} & \textbf{Title} & \textbf{Amount}\\
+EstF & Estonian & Female &Nils Holgerssoni imeline teekond läbi Rootsi  & 16 hours \\
+EstM & Estonian & Male & Würst Gabriel ehk Pirita kloostri wiimsed päewad & 6 hours \\
+FinF & Finnish & Female & Syntymättömien sukupolvien Eurooppa & 12 hours\\
+FinM & Finnish & Male & Seitsemän veljestä & 13 hours\\
+SmeF & \ns & Female & & 3.3 hours  \\
+SmeM & \ns & Male & & 4.6 hours \\
+\end{tabular}
+\caption{Audio data for the trained speaker dependent systems\label{tbl:amdatacomp}}
+\end{table}
+
+\begin{table}[h!]
+
+\centering
+\begin{tabular}{llrrr}
+\textbf{Language} & \textbf{Source} & \textbf{\#sentences} & \textbf{ \#word tokens} & \textbf{\#word types}\\
+Estonian & Wikipedia &  895k & 10M & 778k \\
+ Estonian & newspaper+web+broadcast & 19M  & 229M  & \\
+ Finnish & Wikipedia &  2.2M  & 22M & 1.5M \\
+ Finnish & Kielipankki & 13M &  143M & 4.1M \\
+ \ns & Wikipedia & 10k & 88k & 20k\\
+ \ns & Tromsø & 990k & 12M & 475k\\
+%Est_wiki & Estonian & Wikipedia &Nils Holgerssoni imeline teekond läbi Rootsi  & 16 hours \\
+%Est_ & Estonian & Male & Würst Gabriel ehk Pirita kloostri wiimsed päewad & 6 hours \\
+%FinF & Finnish & Female & Syntymättömien sukupolvien Eurooppa & 12 hours\\
+%FinM & Finnish & Male & Seitsemän veljestä & 13 hours\\
+%SmeF & \ns & Female & &  \\
+%SmeM & \ns & Male & & \\
+\end{tabular}
+\caption{Language modeling data for the trained speaker dependent systems\label{tbl:lmdatacomp}}
+\end{table}
+
+The comparable system takes only 2.5 hours of audio data and a random 10.000 sentences of the wikipedia data set for each language. The systems are trained with a 6-gram varikn language model. The statistics in Table~\ref{tbl:lmdatacomp_small} show that the datasets are equal in amount of sentences, but not in numbers of word types and tokens. This is most likely because the \ns wikipedia has more stub articles that contain short sentences with similar words.
+
+
+\begin{table}[h!]
+
+\centering
+\begin{tabular}{llrrr}
+\textbf{Language} & \textbf{\#sentences} & \textbf{\#word tokens} & \textbf{\#word types}\\
+Estonian &   10k & 108k & 41k \\
+ Finnish &   10k  & 103k & 43k \\
+ \ns &  10k & 88k & 20k\\
+%Est_wiki & Estonian & Wikipedia &Nils Holgerssoni imeline teekond läbi Rootsi  & 16 hours \\
+%Est_ & Estonian & Male & Würst Gabriel ehk Pirita kloostri wiimsed päewad & 6 hours \\
+%FinF & Finnish & Female & Syntymättömien sukupolvien Eurooppa & 12 hours\\
+%FinM & Finnish & Male & Seitsemän veljestä & 13 hours\\
+%SmeF & \ns & Female & &  \\
+%SmeM & \ns & Male & & \\
+\end{tabular}
+\caption{Reduced subsets of wikipedia data\label{tbl:lmdatacomp_small}}
+\end{table}
+
+The results of the small recognizers are shown in Table~\ref{tbl:resultssmallcomp}.
+
+\begin{table}[h!]
+
+\centering
+\begin{tabular}{llrr}
+\textbf{Language} & \textbf{Gender} & \textbf{Word Error Rate} & \textbf{Letter Error Rate}\\
+Estonian & Female & 39.6 & 15.8 \\
+Estonian & Male & 44.0 & 16.5\\
+Finnish & Female & 25.2 &4.1 \\
+Finnish & Male &  35.8 & 7.7 \\
+\ns & Female & 37.5 & 8.5 \\
+\ns & Male & 39.5 & 9.4 \\
+\end{tabular}
+\caption{Speech recognizer results for the smallest dataset with wikipedia + own data language model, 6gram Varigram-kn + 2gram lookahead model \label{tbl:resultssmallcomp}}
+\end{table}
+
+
+\begin{table}[h!]
+
+\centering
+\begin{tabular}{llrr}
+\textbf{Language} & \textbf{Gender} & \textbf{Word Error Rate} & \textbf{Letter Error Rate}\\
+Estonian & Female & 39.6 & 15.8 \\
+Estonian & Male & 44.0 & 16.5\\
+Finnish & Female & 25.2 &4.1 \\
+Finnish & Male &  35.8 & 7.7 \\
+\ns & Female & 37.5 & 8.5 \\
+\ns & Male & 39.5 & 9.4 \\
+\end{tabular}
+\caption{Speech recognizer results for the smallest audio dataset with the bigger language model \label{tbl:resultssmallcomp}}
+\end{table}
+
+
+
 State of the art in Finnish \cite{hirsimaki2006unlimited} and Estonian \cite{kurimo2015modeling}
 \section{Conclusions} 
 
