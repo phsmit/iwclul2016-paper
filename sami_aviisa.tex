@@ -1,9 +1,10 @@
-\documentclass[10pt,b5paper,utf8]{article}
+\documentclass[b5paper]{article}
 %\usepackage[utf8]{inputenc}
 
-\usepackage{fontspec}
-\setmainfont{Linux Libertine O}
+%\usepackage{fontspec}
+%\setmainfont{Linux Libertine O}
 
+\usepackage{polyglossia}
 \usepackage{amsmath}
 \usepackage{multirow}
 \usepackage{amsfonts}
@@ -38,30 +39,45 @@
 \newcommand{\todo}[2]{{\textcolor{red}{\bf [#1] #2 }}}
 \newcommand{\note}[1]{{\textcolor{blue}{[#1]}}}
 
+\newcommand{\ns}{{North Sámi}}
+
+
+\title{Automatic Speech Recognition for  for \ns} 
+\author{Peter Smit \\ \texttt{peter.smit@aalto.fi} \and Juho Leinonen \\ \texttt{juho.leinonen@aalto.fi} \and Mikko Kurimo\\ \texttt{mikko.kurimo@aalto.fi}  \\
+[0.5cm]Department of Signal Processing and Acoustics, Aalto University\\}
+
+
 \begin{document}
 
-\title{Speech recognizer for North Sami} \author{Juho Leinonen \and Peter Smit\footnote{Contact this person, not first author} \and Mikko Kurimo} \maketitle
+\maketitle
 
-\begin{abstract} Speech recognizer for Sami built. N-gram tests. OOV-issues. Morphs better. \end{abstract}
+\begin{abstract} We have developed a Large Vocabulary Continous Speech Recognizer for \ns, an uralic langage that has little resources for speech technology available. Using only a limited audio data, 2,5 hours, and the \ns Wikipedia as language model we achieved n\% Letter Error Rate. With a language model based on the Trömso dataset we achieved n\% LER. To put this in perspective we also trained Finnish and Estonian systems with the same amount of data and compared those to state-of-the art systems in those languages.   \end{abstract}
 
 \section{Introduction}
 
-(DigiSami \& WikiTalk \cite{wilcock2013wikitalk}\cite{jokinen2014multimodal}\cite{jokinen2014open})
+\ns is the largest of the nine Sámi languages with about 20 000 speakers. It belongs to the Uralic language family.
 
-North Sami is the largest of the nine Sami languages with about 20 000 speakers. \todo{Juho}{Cite}  It is a morphologically rich language like other languages in the Uralic group, as such it suffers from the same issues Finnish speech recognition suffers, inflection and cases adding many variations of the word to the lexicon. 
+Like other languages in the Uralic language familiy, like Finnish and Estonian, it is highly morphological as the language uses independent suffixes extensively. This poses challenges for speech technology applications as the number of inflections cause the size of the vocabulary to be enourmous, especially compared to the languages in the Indo-European family, which are most often researched. The great different number of words causes especially problems in the estimation of language models, which can not produce any words beyond those seen in the the training data. 
 
-North Sami is also an under-resourced language. There are little corpora of spoken and written language available, and financial resources to collect these data are limited. Even though there is active linquist research on Northern Sami \todo{P}{Mention tromso and helsinki}, there are limitations to the expert resources avaible for speech recognition, such as pronunciation dictionaries.
+\ns is also an under-resourced language. There are little corpora of spoken and written language available, and financial resources to collect these data are limited. Even though there is active linquist research on \ns \todo{P}{Mention tromso and helsinki}, there are limitations to the expert resources avaible for speech recognition, such as pronunciation dictionaries. 
 
 To combat the challenges of building an LVCSR system for an under-resourced language we have employed different techniques. First we used "found data" for building the acoustic and language models. For the acoustic model we needed to bootstrapped from a bigger related language (Finnish). For the language model we used subword units (morphs) to increase the coverage of the language.
 
-To project a possible upper-bound on the recognition accuracies possible for Northern Sami, we also have produced systems for Finnish and Estonian, using the same quantities of data for comparison.
+To project a possible upper-bound on the recognition accuracies possible for \ns, we also have produced systems for Finnish and Estonian, using the same quantities of data for comparison. Comparing these to the state-of-the art systems for Finnish and Estonian will give a good estimate of the possible gains before more \ns data is gathered.
+
+This work is an extension of \cite{leinonen2015}.
+
+\section{Application}
+The final application for the recognizer is to be deployed as part of a spoken dialogue system in the WikiTalk application \cite{wilcock2013wikitalk}. This is one part of the DigiSami project which "is a research project at University of Helsinki which aims to support content generation of less resourced languages with the help of language technology". Currently, the biggest dangers to Sami language are the disappearance of the traditional lifestyle and work of Sami culture, and emigration of Sami people from their old living areas. However, there are also studies and discussion on using new technologies to revitalize languages \cite{eisenlohr2004language}. In \cite{jokinen2014open}, the author describes revitalization for the \ns language using the WikiTalk application. In WikiTalk, the idea is to have users (children or adults) find out more about subjects that interest them by discussing with the humanoid robot Nao. They can ask for more information on the subject and then Nao will read them the related Wikipedia article \cite{jokinen2014multimodal}. Some related work using Nao with children is discussed in \cite{kruijff2012spoken}, where Nao would show exercises and plays, and with similar research as WikiTalk for Japanese Wikipedia \cite{kobayashi2011intelligent}
+
+
 
 
 \section{Literature on under-resourcedness}
 
 \section{UNUSED TEXT}
 
-This paper introduces a new speech recognizer for North Sami, the largest of the nine Sami languages with about 20 000 speakers. \todo{Juho}{Cite}  Sami is a morphologically rich language in the Uralic group, and consequently it suffers from the same issues as Finnish speech recognition: inflection and compounding add a huge number of words to the lexicon. North Sami is also an under-resourced language, so it is not feasible to collect enough data for a corpus that contains natural occurrences of all the different word forms. Another issue is the lack of expert help, for instance there is not enough resources to build a proper pronunciation dictionary for Sami, and therefore here, and in other model training phases, this paper introduces useful generalizations and unsupervised learning as techniques that could be applied to other under-resourced languages as well.
+This paper introduces a new speech recognizer for \ns, the largest of the nine Sami languages with about 20 000 speakers. \todo{Juho}{Cite}  Sami is a morphologically rich language in the Uralic group, and consequently it suffers from the same issues as Finnish speech recognition: inflection and compounding add a huge number of words to the lexicon. \ns is also an under-resourced language, so it is not feasible to collect enough data for a corpus that contains natural occurrences of all the different word forms. Another issue is the lack of expert help, for instance there is not enough resources to build a proper pronunciation dictionary for Sami, and therefore here, and in other model training phases, this paper introduces useful generalizations and unsupervised learning as techniques that could be applied to other under-resourced languages as well.
 
 Words are the most common unit for n-gram language models, and they work very well for analytic and isolating languages such as English. However, they are not the best choice for synthetic languages such as Finnish, Estonian or Sami. In these type of languages additional information is mostly added to the stem of the word, instead of using prepositions, postpositions or other parts of speech. Therefore, conferring information that might take many English words could be done with just one in Sami, for example TELL AN EXAMPLE. Thus, using segmented word fragments called morphs was tested as a language model unit for the recognizer. Morphs get their name from morpheme, which is the smallest grammatical unit of a language. In this paper both unsupervised and supervised learning for the optimal segmentation was tested, which resulted in morphs that represented grammatical segmentation, and ones that were generated to purely optimize the cost function of the segmentation tool, Morfessor Baseline 2.0 \cite{virpioja2013morfessor}. 
 
@@ -75,7 +91,7 @@ As there is only data availble from 2 speakers (one male, one female) one speake
 
 As there is no full pronunciation dictionary available, we use a simple letter-to-sound mapping resulting in \todo{}{find this} phones. The decision tree questions for state tying are based on those of Finnish, with a slight modification made by a linguistic expert at Helsinki University.
 
-The data, which was in the form of long audio segments and the corresponding text is first automatically split into sentences by means of forced alignment with AaltoASR's align tool. In the first iteration a Finnish model is used, which worked reasonably well. Once a first Northern Sami model had been trained that model would it is used for forced alignment, resulting in a an almost perfect sentence based alignment.
+The data, which was in the form of long audio segments and the corresponding text is first automatically split into sentences by means of forced alignment with AaltoASR's align tool. In the first iteration a Finnish model is used, which worked reasonably well. Once a first \ns model had been trained that model would it is used for forced alignment, resulting in a an almost perfect sentence based alignment.
 
 Similarly the first alignment in the baum-welch model training was done using a Finnish model for the first training run. Later training runs used the best Sami model available.
 
@@ -134,7 +150,7 @@ The system the experiments were carried out on was AaltoASR \cite{hirsimaki2009i
 maybe more carefully if needed. These people might actually want to see the letter-to-IPA-AaltoASR phoneme table?
 
 \begin{table}[h!]
-\caption{North Sami alphabet and its representation in AaltoASR.\label{tab:graphemes}}
+\caption{\ns alphabet and its representation in AaltoASR.\label{tab:graphemes}}
 \begin{center}
  \begin{tabular}{||c c c||} 
  \hline
@@ -230,12 +246,41 @@ The purpose of this is to generate a small set of morphs that represents the wor
 A greedy search algorithm is used to find the optimal segmentation of morphs for the training data. One word is selected at a time and all different segmentations are tried, with the one that best improves the unsegmented part chosen and applied to all the other words. When the best model is found it is used to segment the LM training corpus with the Viterbi algorithm. This result can be used to generate n-gram models with morphs as LM units.
 
 \section{Sami recognizer results} 
+\begin{table}[h!]
+\begin{tabular}{ll}
+Dataset & Training data\\
+Female & 2.5 hours\\
+Male & 3.5 hours\\
+\end{tabular}
+\end{table}
 
-\section{Comparison to other comparable languages recognizers}
+\begin{figure}[h!]
+\includegraphics[width=.6\textwidth]{figures/smeF-complete_wikipedia-ler}
+\caption{Female data - letter error rate}
+\end{figure}
 
+\begin{figure}[h!]
+\includegraphics[width=.6\textwidth]{figures/smeF-complete_wikipedia-wer}
+\caption{Female data - word error rate}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=.6\textwidth]{figures/smeM-complete_wikipedia-ler}
+\caption{Male data - letter error rate}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=.6\textwidth]{figures/smeM-complete_wikipedia-wer}
+\caption{Male data - word error rate}
+\end{figure}
+
+\section{Comparsion of low-resource systems for multiple languages}
+To compare the results of the \ns recognizer 
+State of the art in Finnish \cite{hirsimaki2006unlimited} and Estonian \cite{kurimo2015modeling}
 \section{Conclusions} 
 
 \section{Acknowledgements} 
+\todo{}{Add wikitalk/digisami?} \todo{}{Thank tromso/helsinki} 
 We acknowledge the computational resources provided by the Aalto Science-IT project.
 
 

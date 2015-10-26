@@ -5,7 +5,7 @@ MAIN := sami_aviisa
 all: $(MAIN).pdf
 
 %.pdf: %.tex
-	latexmk -xelatex $<
+	latexmk -xelatex -use-make $<
 
 clean:
 	-latexmk -C
