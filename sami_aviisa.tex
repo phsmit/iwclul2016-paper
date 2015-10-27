@@ -395,9 +395,43 @@ Finnish & Male &  35.8 & 7.7 \\
 \end{table}
 
 
+\begin{table}[h!]
+
+\centering
+\begin{tabular}{llrr}
+\textbf{Language} & \textbf{Gender} & \textbf{Training hours} & \textbf{Word Error Rate} & \textbf{Letter Error Rate}\\
+Estonian & Female & 8 &  &  \\
+Estonian & Male & 4.5 & & \\
+Finnish & Female & 9  & 8.7 & 2.1 \\
+Finnish & Male & 10  & 4.0 & 22.2  \\
+\ns & Female & 2.5  & &  \\
+\ns & Male & 3.5   & &  \\
+\end{tabular}
+\caption{Speech recognizer results for the full audio books with the bigges language model \label{tbl:resultbigcomp}}
+\end{table}
+
+
+
+\begin{table}[h!]
+
+\centering
+\begin{tabular}{llrrl}
+\textbf{Language} & \textbf{Description} & \textbf{Word Error Rate} & \textbf{Letter Error Rate} & \textbf{Source}\\
+Estonian &  & & &  \\
+Finnish &  & & & 
+\end{tabular}
+\caption{State of the art results for Finnish and Estonian Speaker Independent ASR}
+\end{table}
+
+
 \todo{P}{Mention different number of Gaussians or remove reference in Acoustic Modeling section}
 State of the art in Finnish \cite{hirsimaki2006unlimited} and Estonian \cite{kurimo2015modeling}
+
+
 \section{Conclusions} 
+\note{Report the basic results on a Sami SD speech recognizer. Compare them with same condition Finnish and Estonian recognizer. Show the potential for SD systems by extrapolating to full audio book results for Finnish and Estonian and show the potentail to SI system by simply reporting previous results}
+
+\note{Future work is developing more methods to make an SI recognizer using only limited data, e.g. by using foreign data in AM training}
 
 \section{Acknowledgements} 
 \todo{}{Add wikitalk/digisami?} \todo{}{Thank tromso/helsinki} \todo{Mikko}{Coin or any other projects?}
