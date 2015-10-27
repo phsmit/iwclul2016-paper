@@ -110,16 +110,13 @@ Eventhough there is a (partial) solution to all the expensive data needs, all th
 
 
 \section{Acoustic modeling}
-The Acoustic Modeling part of the speech recognizer was done with a standard Hidden Markov model with Gaussian mixture models as emission distribution. Mel Frequency Cepstral Coefficients were used as input features
+The Acoustic Modeling part of the speech recognizer was done with a standard Hidden Markov model with Gaussian mixture models as emission distribution (HMM-GMM). Mel Frequency Cepstral Coefficients were used as input features. 
 
+The audio data is prepared by splitting the audio files (originally chapter length or similar) into sentence utterances. This is done by doing Baum-Welch forced alignment with a temporary speech recognition model. The temporary speech recognition model was created by taking a well trained Finnish model and mapping the Finnish phonemes to the one of the target language. In later iterations the best speech recognition model of the language was used to do the forced alignment again, resulting in a perfect split of training utterances.
 
-As there is only data availble from 2 speakers (one male, one female) one speaker-dependent system per speaker was build. We use standard MFCC features, with  a tristate, triphone, HMM-GMM system to model the data. The model is trained using baum-welch, maximum likelihood training and states are shared through state tying with a decision tree. The software we use is AaltoASR.
+The HMM-GMM model is trained using multiple iterations of Baum-Welch, maximum likelihood estimation. To manage the model complexity Gaussians were shared between different states using decision tree clustering.
 
-As there is no full pronunciation dictionary available, we use a simple letter-to-sound mapping resulting in \todo{}{find this} phones. The decision tree questions for state tying are based on those of Finnish, with a slight modification made by a linguistic expert at Helsinki University.
-
-The data, which was in the form of long audio segments and the corresponding text is first automatically split into sentences by means of forced alignment with AaltoASR's align tool. In the first iteration a Finnish model is used, which worked reasonably well. Once a first \ns model had been trained that model would it is used for forced alignment, resulting in a an almost perfect sentence based alignment.
-
-Similarly the first alignment in the baum-welch model training was done using a Finnish model for the first training run. Later training runs used the best Sami model available.
+Although there are different tuning possibilities in the acoustic model, specifically that control the number of parameters (Gaussians) in the model, the defaults were used as small experiments showed no improvements in different values. In Section~\ref{sec:compexp} the number of Gaussians for different models are reported.
 
 
 \section{Language modeling}
@@ -304,6 +301,7 @@ Male & 3.5 hours\\
 \end{figure}
 
 \section{Comparsion of low-resource systems for multiple languages}
+\label{sec:compexp}
 To compare the results of the \ns recognizer with recognizers in different languages we first trained speaker dependent models for both Finnish and Estonian audiobooks. The available audio datasets are described in Table~\ref{tbl:amdatacomp} and the available text corpora in Table~\ref{tbl:lmdatacomp}.
 
 
@@ -397,7 +395,7 @@ Finnish & Male &  35.8 & 7.7 \\
 \end{table}
 
 
-
+\todo{P}{Mention different number of Gaussians or remove reference in Acoustic Modeling section}
 State of the art in Finnish \cite{hirsimaki2006unlimited} and Estonian \cite{kurimo2015modeling}
 \section{Conclusions} 
 
