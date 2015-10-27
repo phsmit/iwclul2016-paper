@@ -39,7 +39,7 @@
 \setmainfont[Mapping=tex-text]{Linux Libertine O}
 
 \newcommand{\todo}[2]{{\textcolor{red}{\bf [#1] #2 }}}
-\newcommand{\note}[1]{{\textcolor{blue}{[#1]}}}
+\newcommand{\note}[1]{{\textcolor{blue}{#1}}}
 
 \newcommand{\ns}{{North Sámi }}
 
@@ -55,27 +55,48 @@
 
 \begin{abstract} We have developed a Large Vocabulary Continous Speech Recognizer for \ns, an uralic langage that has little resources for speech technology available. Using only a limited audio data, 2,5 hours, and the \ns Wikipedia as language model we achieved n\% Letter Error Rate. With a language model based on the Trömso dataset we achieved n\% LER. To put this in perspective we also trained Finnish and Estonian systems with the same amount of data and compared those to state-of-the art systems in those languages.   \end{abstract}
 
+\note{To be submitted to the Second International Workshop on Computational Linguistics for Uralic Languages, iwclul2016. Deadline 2nd November. `Papers should be up to 10 pages in length excluding references'}
 \section{Introduction}
 
 \ns is the largest of the nine Sámi languages with about 20 000 speakers. It belongs to the Uralic language family.
 
-Like other languages in the Uralic language familiy, like Finnish and Estonian, it is highly morphological as the language uses independent suffixes extensively. This poses challenges for speech technology applications as the number of inflections cause the size of the vocabulary to be enourmous, especially compared to the languages in the Indo-European family, which are most often researched. The great different number of words causes especially problems in the estimation of language models, which can not produce any words beyond those seen in the the training data. 
+Like other languages in the Uralic language familiy, like Finnish and Estonian, it is highly morphological as the language uses independent suffixes extensively. This poses challenges for speech technology applications as the number of inflections, derivations and compoundings cause the size of the vocabulary to be enourmous, especially compared to the languages in the Indo-European family, which are most often researched. The great different number of words causes especially problems in the estimation of language models, which can not produce any words beyond those seen in the the training data. 
 
 \ns is also an under-resourced language. There are little corpora of spoken and written language available, and financial resources to collect these data are limited. Even though there is active linquist research on \ns \todo{P}{Mention tromso and helsinki}, there are limitations to the expert resources avaible for speech recognition, such as pronunciation dictionaries. 
 
-To combat the challenges of building an LVCSR system for an under-resourced language we have employed different techniques. First we used "found data" for building the acoustic and language models. For the acoustic model we needed to bootstrapped from a bigger related language (Finnish). For the language model we used subword units (morphs) to increase the coverage of the language.
+To combat the challenges of building an LVCSR system for an under-resourced language we have employed different techniques. First we used `found data' for building the acoustic and language models. For the acoustic model we needed to bootstrapped from a bigger related language (Finnish). For the language model we used subword units (morphs) to increase the coverage of the language.
 
 To project a possible upper-bound on the recognition accuracies possible for \ns, we also have produced systems for Finnish and Estonian, using the same quantities of data for comparison. Comparing these to the state-of-the art systems for Finnish and Estonian will give a good estimate of the possible gains before more \ns data is gathered.
 
 This work is an extension of \cite{leinonen2015}.
 
 \section{Application}
-The final application for the recognizer is to be deployed as part of a spoken dialogue system in the WikiTalk application \cite{wilcock2013wikitalk}. This is one part of the DigiSami project which "is a research project at University of Helsinki which aims to support content generation of less resourced languages with the help of language technology". Currently, the biggest dangers to Sami language are the disappearance of the traditional lifestyle and work of Sami culture, and emigration of Sami people from their old living areas. However, there are also studies and discussion on using new technologies to revitalize languages \cite{eisenlohr2004language}. In \cite{jokinen2014open}, the author describes revitalization for the \ns language using the WikiTalk application. In WikiTalk, the idea is to have users (children or adults) find out more about subjects that interest them by discussing with the humanoid robot Nao. They can ask for more information on the subject and then Nao will read them the related Wikipedia article \cite{jokinen2014multimodal}. Some related work using Nao with children is discussed in \cite{kruijff2012spoken}, where Nao would show exercises and plays, and with similar research as WikiTalk for Japanese Wikipedia \cite{kobayashi2011intelligent}
+The final application for the recognizer is to be deployed as part of a spoken dialogue system in the WikiTalk application \cite{wilcock2013wikitalk}. This is one part of the DigiSami project which ``is a research project at University of Helsinki which aims to support content generation of less resourced languages with the help of language technology''. Currently, the biggest dangers to Sami language are the disappearance of the traditional lifestyle and work of Sami culture, and emigration of Sami people from their old living areas. However, there are also studies and discussion on using new technologies to revitalize languages \cite{eisenlohr2004language}. In \cite{jokinen2014open}, the author describes revitalization for the \ns language using the WikiTalk application. In WikiTalk, the idea is to have users (children or adults) find out more about subjects that interest them by discussing with the humanoid robot Nao. They can ask for more information on the subject and then Nao will read them the related Wikipedia article \cite{jokinen2014multimodal}. Some related work using Nao with children is discussed in \cite{kruijff2012spoken}, where Nao would show exercises and plays, and with similar research as WikiTalk for Japanese Wikipedia \cite{kobayashi2011intelligent}
 
 
 
 
-\section{Literature on under-resourcedness}
+\section{ASR for under-resourced languages}
+The majority of state-of-the art methods in Large Vocabulary Speech Recognition require big amounts of data and expertise. 
+
+Firstly, a great number of high quality spoken utterances have to be collected and correctly transcribed. In case of a Speaker-Independent (SI) system, a system that can recognize anyone who speaks the target language, utterance from many different persons is needed. For a Speaker-Dependent (SD) system, a system that can only recognize the voice of the person that spoke the training data, many hours of voice and transcriptions are required.
+
+The second required dataset is a large corpus of written text, preferably in the same style and domain as what should be recognized by the system. This corpus should at least contain all common words in their expected contexts in order to train a good language model.
+
+Lastly, a normal speech recognizer needs a pronunciation dictionary. A list of all possible words with all their possible phonetic transcriptions. Also needed is a list of questions that separate the phonemes in different groups, this is used in acoustic model training to share probability distribution with decision tree clustering.
+
+As none of the above data and expertise are readily avaibable for an underresourced language, alternatives have to be developed. In the case of transcribed audio data, a good resource would be audio books. Projects such as Librivox \todo{P}{Cite} have freely available audiobooks in many languages, although the quality varies. Using a temporary acoustic model and basic text processing techniques these audiobooks can be automatically segmented into sentence-long utterances that are suitable for training a minimal speaker-dependent model.
+
+Also language data is often freely available online, though not necessary high-quality or in usable form. Web-scraping  \todo{P}{Cite}  can give a rudimentary dataset for training a language model. Also sites like wikipedia have often big collections of easily available text. The main problem with this `found' datasets is that the style and topic of the language data found does not match with the actual sentences spoken. Also, the datasets might contain foreign language segments, symbols or abbreviations that dillute the usability.
+
+The pronuciation dictionary requires normally a great effort and linguistic expertise. One solution is to model the graphemes (letters) of the words directly, \todo{P}{Cite grapheme-to-sound} instead of using the actual phone they represent in the words. In languages such as English this would not give very good results as graphemes can have very different realizations. Consider for example the words `Tough' and `Though', in writing very similar words, but when spoken very different. In the Uralic languages studied here though, a grapheme-to-sound system would work very reasonable as in general every grapheme is only realized as a single distinct sound.
+
+Lastly, the phoneme question set is a small dataset that can only be made by a language expert. Altough there are algorithms avaible that can replace this set altogther \todo{P}{Cite}, this is often undesirable as it effects the systems effectiveness. Another method is to take the phoneme set of a very closely related language, and alter it slightly to reflect the correct set for the target language. This can be often done with only minimal expert effort.
+
+Eventhough there is a (partial) solution to all the expensive data needs, all these solutions do limit the resulting speech recognizer in different ways. In case of state-of-the art ASR systems, always more, higher quality, in domain speech and language data and expertise would improve the system signficantly (up to a certain point). There are however usable systems to be made in the under-resourced situation, with the most limiting factor being that SI systems are unattainable as the number of speakers is too low.
+
+
+
 
 %	\section{UNUSED TEXT}
 %	
@@ -89,6 +110,9 @@ The final application for the recognizer is to be deployed as part of a spoken d
 
 
 \section{Acoustic modeling}
+The Acoustic Modeling part of the speech recognizer was done with a standard Hidden Markov model with Gaussian mixture models as emission distribution. Mel Frequency Cepstral Coefficients were used as input features
+
+
 As there is only data availble from 2 speakers (one male, one female) one speaker-dependent system per speaker was build. We use standard MFCC features, with  a tristate, triphone, HMM-GMM system to model the data. The model is trained using baum-welch, maximum likelihood training and states are shared through state tying with a decision tree. The software we use is AaltoASR.
 
 As there is no full pronunciation dictionary available, we use a simple letter-to-sound mapping resulting in \todo{}{find this} phones. The decision tree questions for state tying are based on those of Finnish, with a slight modification made by a linguistic expert at Helsinki University.
@@ -138,10 +162,7 @@ As normal language model tools have problems with (correctly backing off) deep n
 For decoding we have used the AaltoASR decoder, which is specialized in decoding morph-language models with deep contexts.
 
 
-
-\section{Experiments}
-
-\section{Tools used}
+\section{Experiment setup}
 
 \note{we don't have to explain acoustic modeling, language modelling etc. We do need to tell what recognizer we used (AaltoASR) and what features it has (MFCC's, Gaussian-mixture HMM's, type of decoder). Same for language modeling tools}
 
@@ -170,7 +191,7 @@ The system the experiments were carried out on was AaltoASR \cite{hirsimaki2009i
 %
 
 
-\section{Dealing with under-resourced ness}
+%\section{Dealing with under-resourced ness}
 
 
 
@@ -250,7 +271,7 @@ The system the experiments were carried out on was AaltoASR \cite{hirsimaki2009i
 %
 
 
-\section{Sami recognizer results} 
+\section{\ns ASR evaluation} 
 \begin{table}[h!]
 \begin{tabular}{ll}
 Dataset & Training data\\
@@ -381,7 +402,7 @@ State of the art in Finnish \cite{hirsimaki2006unlimited} and Estonian \cite{kur
 \section{Conclusions} 
 
 \section{Acknowledgements} 
-\todo{}{Add wikitalk/digisami?} \todo{}{Thank tromso/helsinki} 
+\todo{}{Add wikitalk/digisami?} \todo{}{Thank tromso/helsinki} \todo{Mikko}{Coin or any other projects?}
 We acknowledge the computational resources provided by the Aalto Science-IT project.
 
 
