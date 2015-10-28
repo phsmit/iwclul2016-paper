@@ -41,7 +41,7 @@
 \newcommand{\todo}[2]{{\textcolor{red}{\bf [#1] #2 }}}
 \newcommand{\note}[1]{{\textcolor{blue}{#1}}}
 
-\newcommand{\ns}{{North Sámi }}
+\newcommand{\ns}{{Northern Sámi }}
 
 
 \title{Automatic Speech Recognition for  for \ns} 
@@ -110,6 +110,7 @@ Eventhough there is a (partial) solution to all the expensive data needs, all th
 
 
 \section{Acoustic modeling}
+\label{sec:align}
 The Acoustic Modeling part of the speech recognizer was done with a standard Hidden Markov model with Gaussian mixture models as emission distribution (HMM-GMM). Mel Frequency Cepstral Coefficients were used as input features. 
 
 The audio data is prepared by splitting the audio files (originally chapter length or similar) into sentence utterances. This is done by doing Baum-Welch forced alignment with a temporary speech recognition model. The temporary speech recognition model was created by taking a well trained Finnish model and mapping the Finnish phonemes to the one of the target language. In later iterations the best speech recognition model of the language was used to do the forced alignment again, resulting in a perfect split of training utterances.
@@ -196,88 +197,57 @@ The system the experiments were carried out on was AaltoASR \cite{hirsimaki2009i
 %
 %maybe more carefully if needed. These people might actually want to see the letter-to-IPA-AaltoASR phoneme table?
 %
-%\begin{table}[h!]
-%\caption{\ns alphabet and its representation in AaltoASR.\label{tab:graphemes}}
-%\begin{center}
-% \begin{tabular}{||c c c||} 
-% \hline
-% Sami & IPA & AaltoASR phoneme \\ [0.5ex] 
-% \hline\hline
-% A a & /\textipa{A}/ & a \\ 
-% \hline
-% Á á & /\textipa{a}/ & ä \\
-% \hline
-% B b & /\textipa{b}/ & b \\
-% \hline
-% C c & /\textipa{ts}/ & ts \\
-% \hline
-% Č č & /\textipa{tS}/ & C \\
-% \hline
-% D d & /\textipa{d}/ & d \\
-% \hline
-% Đ đ & /\textipa{D}/ & D \\
-% \hline
-% E e & /\textipa{e}/ & e \\ 
-% \hline
-% F f & /\textipa{f}/ & f \\
-% \hline
-% G g & /\textipa{g}/ & g \\ 
-% \hline
-% H h & /\textipa{h}/ & h \\
-% \hline
-% I i & /\textipa{i}/ & i \\
-% \hline
-% J j & /\textipa{j}/ & j \\
-% \hline
-% K k & /\textipa{k}/ & k \\
-% \hline
-% L l & /\textipa{l}/ & l \\
-% \hline
-% M m & /\textipa{m}/ & m \\
-% \hline
-% N n & /\textipa{n}/ & n \\
-% \hline
-% Ŋ ŋ & /\textipa{N}/ & N \\
-% \hline
-% O o & /\textipa{o}/ & o \\ 
-% \hline
-% P p & /\textipa{p}/ & p \\
-% \hline
-% R r & /\textipa{r}/ & r \\ 
-% \hline
-% S s & /\textipa{s}/ & s \\
-% \hline
-% Š š & /\textipa{S}/ & S \\
-% \hline
-% T t & /\textipa{t}/ & t \\
-% \hline
-% Ŧ ŧ & /\textipa{T}/ & T \\
-% \hline
-% U u & /\textipa{u}/ & u \\
-% \hline
-% V v & /\textipa{v}/ & v \\
-% \hline
-% Z z & /\textipa{dz}/ & z \\
-% \hline
-% Ž ž & /\textipa{dZ}/ & Z \\ [1ex]
-% \hline
-%\end{tabular}
-%\end{center}
-%\end{table}
-%
-%
+
+
+
 
 
 \section{\ns ASR evaluation} 
-\begin{table}[h!]
-\begin{tabular}{ll}
-Dataset & Training data\\
-Female & 2.5 hours\\
-Male & 3.5 hours\\
+The audio data used for the \ns recognizer came from the UIT-SME-TTS corpus. The Male audio data was 4.7 hours and the Female data 3.3 hours. As we needed to separate data for development and evaluation only 75\% was used for training; 3.5 and 2.5 hours respectively.
+
+The initial recognition model was created by using a Finnish model. With this model the audio data was split into sentences and trained with the procedure described in Section~\ref{sec:align} two speaker dependent systems, one for the male and one for the female speaker. 
+
+For language model we evaluated both word and morph n-gram models. We used as text data the training sentences together with the \ns wikipedia dump.
+
+The results for basic recognition are shown in Table~\ref{tbl:samibasic}
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{ll|rrr|rrr}
+& & & \textbf{Female} & & & \textbf{Male} & \\
+ \textbf{Unit} & \textbf{Toolkit} & \textbf{5-gram} & \textbf{7-gram} & \textbf{9-gram} & \textbf{5-gram} & \textbf{7-gram} & \textbf{9-gram}\\\hline
+ words & SRILM & 52.9 / 12.7 & 52.9 / 12.7& 52.9 / 12.7&48.6 / 11.1 & 48.7 / 11.1 & 48.7 / 11.1\\
+morphs & SRILM & 40.0 /  9.0 & 39.9 / 9.3& 39.1 / 9.1 & 37.6 / 8.5 & 36.8 / 8.4 & 37.3 / 8.5 \\
+ morphs & VariKN  & 38.4 / 8.6& 38.5 / 8.7  & 37.6 / 8.7 & 35.4 / 8.1 &  33.7 / 7.6 & 34.1 / 7.9 \\
+%DST & words & SRILM & & & & & & \\
+%DST & morphs & SRILM & & & & & & \\
+%DST & morphs & VariKN  & & & & &  & \\ 
+
 \end{tabular}
+\caption{ASR recognition results for the Sami SD recognizers. Word Error Rate / Letter Error Rate reported.\label{tbl:samibasic}}
 \end{table}
 
-\begin{figure}[h!]
+
+The first observation is that the Male recognizer is slightly better than the Female recognizer. This is most likely caused by the fact that there was more data available for the training of the acoustic model.
+
+Just like in other uralic languages, the morph based language models are having much lower error rates then the word based models. This is also confirmed by looking to the OOV-rates in Table~\ref{tbl:samioov} which show the main problem with using word based models for an agglunative language.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{lrr}
+& Word & Morph\\\hline
+Female &  22\% & 0 \% \\
+Male & 20 \% & 0 \%\\
+\end{tabular}
+\caption{Out-of-vocubulary percentages for the Female and Male testsets.\todo{P}{Check if oov rate for morphs is actually 0} \label{tbl:samioov}}
+\end{table}
+
+The last observation is that the VariKN toolkit does a better job in creating a high-order ngram model for morph models. This is expected as it is specifically designed to be used for this purpose.
+
+
+
+
+\begin{figure}[!h]
 \centering
 \begin{subfigure}[b]{.4\textwidth}
 
@@ -305,10 +275,10 @@ Male & 3.5 hours\\
 To compare the results of the \ns recognizer with recognizers in different languages we first trained speaker dependent models for both Finnish and Estonian audiobooks. The available audio datasets are described in Table~\ref{tbl:amdatacomp} and the available text corpora in Table~\ref{tbl:lmdatacomp}.
 
 
-\begin{table}[h!]
-
+\begin{table}[!h]
+\centering
 \begin{tabular}{llllr}
- & \textbf{Language} & \textbf{Gender} & \textbf{Title} & \textbf{Amount}\\
+ & \textbf{Language} & \textbf{Gender} & \textbf{Title} & \textbf{Amount}\\\hline
 EstF & Estonian & Female &Nils Holgerssoni imeline teekond läbi Rootsi  & 16 hours \\
 EstM & Estonian & Male & Würst Gabriel ehk Pirita kloostri wiimsed päewad & 6 hours \\
 FinF & Finnish & Female & Syntymättömien sukupolvien Eurooppa & 12 hours\\
@@ -319,17 +289,16 @@ SmeM & \ns & Male & & 4.6 hours \\
 \caption{Audio data for the trained speaker dependent systems\label{tbl:amdatacomp}}
 \end{table}
 
-\begin{table}[h!]
-
+\begin{table}[!h]
 \centering
 \begin{tabular}{llrrr}
-\textbf{Language} & \textbf{Source} & \textbf{\#sentences} & \textbf{ \#word tokens} & \textbf{\#word types}\\
+\textbf{Language} & \textbf{Source} & \textbf{\#sentences} & \textbf{ \#word tokens} & \textbf{\#word types}\\\hline
 Estonian & Wikipedia &  895k & 10M & 778k \\
- Estonian & newspaper+web+broadcast & 19M  & 229M  & \\
+ Estonian & newspaper+web+broadcast \cite{kurimo2015modeling} & 19M  & 229M  & 3.8M \\
  Finnish & Wikipedia &  2.2M  & 22M & 1.5M \\
  Finnish & Kielipankki & 13M &  143M & 4.1M \\
  \ns & Wikipedia & 10k & 88k & 20k\\
- \ns & Tromsø & 990k & 12M & 475k\\
+ \ns & Den samiske tekstbanken & 990k & 12M & 475k\\
 %Est_wiki & Estonian & Wikipedia &Nils Holgerssoni imeline teekond läbi Rootsi  & 16 hours \\
 %Est_ & Estonian & Male & Würst Gabriel ehk Pirita kloostri wiimsed päewad & 6 hours \\
 %FinF & Finnish & Female & Syntymättömien sukupolvien Eurooppa & 12 hours\\
@@ -343,11 +312,10 @@ Estonian & Wikipedia &  895k & 10M & 778k \\
 The comparable system takes only 2.5 hours of audio data and a random 10.000 sentences of the wikipedia data set for each language. The systems are trained with a 6-gram varikn language model. The statistics in Table~\ref{tbl:lmdatacomp_small} show that the datasets are equal in amount of sentences, but not in numbers of word types and tokens. This is most likely because the \ns wikipedia has more stub articles that contain short sentences with similar words.
 
 
-\begin{table}[h!]
-
+\begin{table}[!h]
 \centering
 \begin{tabular}{llrrr}
-\textbf{Language} & \textbf{\#sentences} & \textbf{\#word tokens} & \textbf{\#word types}\\
+\textbf{Language} & \textbf{\#sentences} & \textbf{\#word tokens} & \textbf{\#word types}\\\hline
 Estonian &   10k & 108k & 41k \\
  Finnish &   10k  & 103k & 43k \\
  \ns &  10k & 88k & 20k\\
@@ -363,11 +331,10 @@ Estonian &   10k & 108k & 41k \\
 
 The results of the small recognizers are shown in Table~\ref{tbl:resultssmallcomp}.
 
-\begin{table}[h!]
-
+\begin{table}[!h]
 \centering
 \begin{tabular}{llrr}
-\textbf{Language} & \textbf{Gender} & \textbf{Word Error Rate} & \textbf{Letter Error Rate}\\
+\textbf{Language} & \textbf{Gender} & \textbf{Word Error Rate} & \textbf{Letter Error Rate}\\\hline
 Estonian & Female & 39.6 & 15.8 \\
 Estonian & Male & 44.0 & 16.5\\
 Finnish & Female & 25.2 &4.1 \\
@@ -379,11 +346,10 @@ Finnish & Male &  35.8 & 7.7 \\
 \end{table}
 
 
-\begin{table}[h!]
-
+\begin{table}[!h]
 \centering
 \begin{tabular}{llrr}
-\textbf{Language} & \textbf{Gender} & \textbf{Word Error Rate} & \textbf{Letter Error Rate}\\
+\textbf{Language} & \textbf{Gender} & \textbf{Word Error Rate} & \textbf{Letter Error Rate}\\\hline
 Estonian & Female & 39.6 & 15.8 \\
 Estonian & Male & 44.0 & 16.5\\
 Finnish & Female & 25.2 &4.1 \\
@@ -395,11 +361,10 @@ Finnish & Male &  35.8 & 7.7 \\
 \end{table}
 
 
-\begin{table}[h!]
-
+\begin{table}[!h]
 \centering
 \begin{tabular}{llrrr}
-\textbf{Language} & \textbf{Gender} & \textbf{Training hours} & \textbf{Word Error Rate} & \textbf{Letter Error Rate}\\
+\textbf{Language} & \textbf{Gender} & \textbf{Training hours} & \textbf{Word Error Rate} & \textbf{Letter Error Rate}\\\hline
 Estonian & Female & 8 &  &  \\
 Estonian & Male & 4.5 & & \\
 Finnish & Female & 9  & 8.7 & 2.1 \\
@@ -412,11 +377,10 @@ Finnish & Male & 10  & 4.0 & 22.2  \\
 
 
 
-\begin{table}[h!]
-
+\begin{table}[!h]
 \centering
 \begin{tabular}{llrrl}
-\textbf{Language} & \textbf{Description} & \textbf{Word Error Rate} & \textbf{Letter Error Rate} & \textbf{Source}\\
+\textbf{Language} & \textbf{Description} & \textbf{Word Error Rate} & \textbf{Letter Error Rate} & \textbf{Source}\\\hline
 Estonian &  & & &  \\
 Finnish &  & & &  \\
 \end{tabular}
