@@ -58,7 +58,7 @@
 \begin{abstract} 
 Whereas commercial Speech Technology applications for major languages are becoming widely available, for other languages there is no commercial interest in developing speech technology. As a lack of technology and applications will threaten the existence of these languages we search for methods to create speech recognizers with minimal effort and low resources.
 
-As a test case, we have developed a Large Vocabulary Continous Speech Recognizer for \ns, an uralic langage that has little resources for speech technology available. Using only a limited audio data, 2,5 hours, and the \ns Wikipedia as language model we achieved n\% Letter Error Rate. With a language model based on the Trömso dataset we achieved n\% LER. To put this in perspective we also trained Finnish and Estonian systems with the same amount of data and compared those to state-of-the art systems in those languages. 
+As a test case, we have developed a Large Vocabulary Continous Speech Recognizer for \ns, an uralic langage that has little resources for speech technology available. Using only a limited audio data, 2,5 hours, and the \ns Wikipedia as language model we achieved n\% Letter Error Rate. With a language model based on the Trömso dataset we achieved n\% LER. To put this in perspective we also trained systems in other, better-resourced, Uralic languages (Finnish and Estonian) with the same amount of data and compared those to state-of-the art systems in those languages. 
 \end{abstract}
 
 \note{To be submitted to the Second International Workshop on Computational Linguistics for Uralic Languages, iwclul2016. Deadline 2nd November. `Papers should be up to 10 pages in length excluding references'}
@@ -73,6 +73,8 @@ Like other languages in the Uralic language familiy, like Finnish and Estonian, 
 \ns is also an under-resourced language. There are little corpora of spoken and written language available, and financial resources to collect these data are limited. Even though there is active linquist research on \ns \todo{P}{Mention tromso and helsinki}, there are limitations to the expert resources avaible for speech recognition, such as pronunciation dictionaries. 
 
 To combat the challenges of building an LVCSR system for an under-resourced language we have employed different techniques. First we used `found data' for building the acoustic and language models. For the acoustic model we needed to bootstrapped from a bigger related language (Finnish). For the language model we used subword units (morphs) to increase the coverage of the language.
+
+\note{Citations regarding under-resourced asr: \cite{besacier2014automatic} and \cite{viet2009}}
 
 To project a possible upper-bound on the recognition accuracies possible for \ns, we also have produced systems for Finnish and Estonian, using the same quantities of data for comparison. Comparing these to the state-of-the art systems for Finnish and Estonian will give a good estimate of the possible gains before more \ns data is gathered.
 
@@ -134,7 +136,7 @@ Although there are different tuning possibilities in the acoustic model, specifi
 
 The main issue with using words as a language model unit for a synthetic language is that to decrease the out-of-vocabulary (OOV) rate to a manageable percentage, a huge lexicon is needed. Since OOV-rate is the minimum WER possible, a OOV-rate much less than 10\% would be necessary. For an English speech recognizer this can be achieved with already with 20 000 words for OOV-rate of 2.4-2.7\% and with a vocabulary of 40 000 words OOV-rate less than one percent is achieved \cite{woodland19951994}. In contrast, a Finnish recognizer needs a 410 000 word vocabulary to have an OOV-rate of 4.0-7.3\% \cite{hirsimaki2006unlimited}.
 
-\subsection{Morphs}
+\subsection{Sub-word units}
 
 Morphs get their name from morphemes, but here they are treated as just word fragments. The size of a word can be anything from a single letter to a whole word. While with words collecting them to a lexicon is a simple task of just gathering every individual word, and if need be limiting by maybe amount of occurances, a special tool is used to gathering from a corpus and then segmenting to them.
 
