@@ -22,6 +22,8 @@
 \usepackage{expex}
 \usepackage{bm}
 
+\usepackage{url}
+
 \usepackage{subcaption}
 
 \usepackage[left=1.65cm,right=1.65cm,top=2cm,bottom=2cm]{geometry}
@@ -53,14 +55,20 @@
 
 \maketitle
 
-\begin{abstract} We have developed a Large Vocabulary Continous Speech Recognizer for \ns, an uralic langage that has little resources for speech technology available. Using only a limited audio data, 2,5 hours, and the \ns Wikipedia as language model we achieved n\% Letter Error Rate. With a language model based on the Trömso dataset we achieved n\% LER. To put this in perspective we also trained Finnish and Estonian systems with the same amount of data and compared those to state-of-the art systems in those languages.   \end{abstract}
+\begin{abstract} 
+Whereas commercial Speech Technology applications for major languages are becoming widely available, for other languages there is no commercial interest in developing speech technology. As a lack of technology and applications will threaten the existence of these languages we search for methods to create speech recognizers with minimal effort and low resources.
+
+As a test case, we have developed a Large Vocabulary Continous Speech Recognizer for \ns, an uralic langage that has little resources for speech technology available. Using only a limited audio data, 2,5 hours, and the \ns Wikipedia as language model we achieved n\% Letter Error Rate. With a language model based on the Trömso dataset we achieved n\% LER. To put this in perspective we also trained Finnish and Estonian systems with the same amount of data and compared those to state-of-the art systems in those languages. 
+\end{abstract}
 
 \note{To be submitted to the Second International Workshop on Computational Linguistics for Uralic Languages, iwclul2016. Deadline 2nd November. `Papers should be up to 10 pages in length excluding references'}
 \section{Introduction}
 
-\ns is the largest of the nine Sámi languages with about 20 000 speakers. It belongs to the Uralic language family.
+\note{Start introduction with under-resourcedness instead of \ns . Maybe change the title of the paper to reflect the under-resourced focus? }
 
-Like other languages in the Uralic language familiy, like Finnish and Estonian, it is highly morphological as the language uses independent suffixes extensively. This poses challenges for speech technology applications as the number of inflections, derivations and compoundings cause the size of the vocabulary to be enourmous, especially compared to the languages in the Indo-European family, which are most often researched. The great different number of words causes especially problems in the estimation of language models, which can not produce any words beyond those seen in the the training data. 
+\ns is the largest of the nine Sámi languages with approximately 25 000 speakers. It belongs to the Uralic language family. \cite{ethno18}
+
+Like other languages in the Uralic language familiy, like Finnish and Estonian, it is highly morphological as the language uses independent suffixes extensively. This poses challenges for speech technology applications as the number of inflections, derivations and compoundings cause the size of the vocabulary to be enourmous, especially compared to the languages in the Indo-European family, which are most often researched \cite{karlsson1982}.  The great different number of words causes especially problems in the estimation of language models, which can not produce any words beyond those seen in the the training data. 
 
 \ns is also an under-resourced language. There are little corpora of spoken and written language available, and financial resources to collect these data are limited. Even though there is active linquist research on \ns \todo{P}{Mention tromso and helsinki}, there are limitations to the expert resources avaible for speech recognition, such as pronunciation dictionaries. 
 
@@ -341,14 +349,14 @@ Next we try the
 \begin{table}[!h]
 \centering
 \begin{tabular}{llrrrr}
- & & \textbf{Own data + wikipedia} & & \textbf{Bigger lm}\\
+ & & \textbf{Own data + wikipedia} & & \textbf{Bigger lm, 10gram}\\
 \textbf{Language} & \textbf{Gender} & \textbf{WER} & \textbf{LER}& \textbf{{WER}} & \textbf{LER}\\\hline
-Estonian & Female & 39.6 & 15.8  & & \\
+Estonian & Female & 39.6 & 15.8  &  & \\
 Estonian & Male & 44.0 & 16.5& & \\
-Finnish & Female & 25.2 &4.1& &  \\
-Finnish & Male &  35.8 & 7.7& &  \\
-\ns & Female & 37.5 & 8.5 & & \\
-\ns & Male & 39.5 & 9.4& &  \\
+Finnish & Female & 25.2 &4.1& 8.9 & 2.1  \\
+Finnish & Male &  35.8 & 7.7& 24.9 &  5.6 \\
+\ns & Female & 37.5 & 8.5 & 23.7  & 5.5 \\
+\ns & Male & 39.5 & 9.4& 20.9 & 4.9  \\
 \end{tabular}
 \caption{Speech recognizer results for the smallest dataset with wikipedia + own data language model, 6gram Varigram-kn + 2gram lookahead model \label{tbl:resultssmallcomp}}
 \end{table}
@@ -372,14 +380,14 @@ Finnish & Male &  35.8 & 7.7& &  \\
 \begin{table}[!h]
 \centering
 \begin{tabular}{llrrrrr}
-& & & \textbf{4-gram} & & \textbf{20-gram} &\\
+& & & \textbf{4-gram} & & \textbf{max(20)-gram} &\\
 \textbf{Language} & \textbf{Gender} & \textbf{Training hours} & \textbf{WER} & \textbf{LER}& \textbf{{WER}} & \textbf{LER}\\\hline
-Estonian & Female & 8 &  &  \\
-Estonian & Male & 4.5 &  &   &  & \\
-Finnish & Female & 9  & 8.3 & 1.9  &  & \\
-Finnish & Male & 10  & 19.7 & 3.7  &  &  \\
+Estonian & Female & 8 & 20.8  & 8.8 & 18.8 & 8.3  \\
+Estonian & Male & 4.5 & 38.9  & 12.6   & 37.7  & 12.2 \\
+Finnish & Female & 9  & 8.3 & 1.9  & 8.1 &  1.9\\
+Finnish & Male & 10  & 19.7 & 3.7  & 19.8  & 3.7  \\
 \ns & Female & 2.5  & 24 & 5.5  & 23.7  & 5.5 \\
-\ns & Male & 3.5   & 18.7 & 4.2  & 18.1  & 4.2 \\
+\ns & Male & 3.5  & 18.7 & 4.2  & 18.1  & 4.2 \\
 \end{tabular}
 \caption{Speech recognizer results for the full audio books with the bigges language model \label{tbl:resultbigcomp}}
 \end{table}
