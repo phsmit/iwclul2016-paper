@@ -308,8 +308,8 @@ EF1 & Estonian & Female &Nils Holgerssoni imeline teekond läbi Rootsi  & 16 hou
 EM1 & Estonian & Male & Würst Gabriel ehk Pirita kloostri wiimsed päewad & 6 hours \\
 FF1 & Finnish & Female & Syntymättömien sukupolvien Eurooppa & 12 hours\\
 FM1 & Finnish & Male & Seitsemän veljestä & 13 hours\\
-SF1 & \ns & Female & & 3.3 hours  \\
-SM1 & \ns & Male & & 4.6 hours \\
+SF1 & \ns & Female & UIT-SME-TTSF & 3.3 hours  \\
+SM1 & \ns & Male & UIT-SME-TTSM & 4.6 hours \\
 \end{tabular}
 \caption{Audio data for the trained speaker dependent systems\label{tbl:amdatacomp}}
 \end{table}
@@ -360,17 +360,17 @@ The results of the small recognizers are shown in Table~\ref{tbl:resultssmallcom
 
 \begin{table}[!h]
 \centering
-\begin{tabular}{llrrrr}
- & & \textbf{\ds{Train+Wiki}, 6-gram} & & \textbf{\ds{Big}, 10-gram}\\
+\begin{tabular}{ll|rr|rr}
+ & & \multicolumn{2}{|c|}{\textbf{\ds{Train+Wiki}}}  & \multicolumn{2}{|c}{\textbf{\ds{Big}}}\\
 \textbf{Language} & \textbf{Voice} & \textbf{WER} & \textbf{LER}& \textbf{{WER}} & \textbf{LER}\\\hline
-Estonian & EF1 & 39.6 & 15.8  &  & \\
-Estonian & EM1 & 44.0 & 16.5& & \\
+Estonian & EF1 & 39.6 & 15.8  &\textcolor{pink}{ 23.4}  &\textcolor{pink}{  10.1 }\\
+Estonian & EM1 & \textcolor{pink}{ 38.8} & \textcolor{pink}{ 13.4}& \textcolor{pink}{ 24.1} & \textcolor{pink}{ 6.5} \\
 Finnish & FF1 & 25.2 &4.1& 8.9 & 2.1  \\
 Finnish & FM1 &  35.8 & 7.7& 24.9 &  5.6 \\
 \ns & SF1 & 37.5 & 8.5 & 23.7  & 5.5 \\
 \ns & SM1 & 39.5 & 9.4& 20.9 & 4.9  \\
 \end{tabular}
-\caption{Speech recognizer results for the smallest dataset with wikipedia + own data language model, 6gram Varigram-kn + 2gram lookahead model \label{tbl:resultssmallcomp}}
+\caption{Word Error Rates for using 2.5 hours of training data and either the \ds{Train+Wiki} or \ds{Big} language models. All language models were 10-gram VariKN subword models, with a 3-gram lookahead model.\label{tbl:resultssmallcomp}. \textcolor{pink}{Pink results are still in progress and show the result on a smaller test set}}
 \end{table}
 
 The \ns\ system performance is very close to that of the FM1 system. Using the \ds{Train+Wiki} language model the results are slightly worse, using the \ds{Big} language model the results are slightly better. This shows that the recognizer is working correctly for \ns, even though no specific changes have been made to optimize for the language.
@@ -394,15 +394,15 @@ The models have also been trained using all available audio data. These results 
 
 \begin{table}[!h]
 \centering
-\begin{tabular}{llrrrrrrrr}
-& & & \textbf{4-gram} & & \textbf{max-gram} &\\
-\textbf{Language} & \textbf{Voice} & \textbf{\#hours} & \textbf{WER} & \textbf{LER}& \textbf{{WER}} & \textbf{LER} & \textbf{\%+ hours} & \textbf{-WER/hour} \\\hline
-Estonian & EF1 & 8 & 20.8  & 8.8 & 18.8 & 8.3 & &  \\
-Estonian & EM1 & 4.5 & 38.9  & 12.6   & 37.7  & 12.2& &  \\
-Finnish & FF1 & 9  & 8.3 & 1.9  & 8.1 &  1.9 & & \\
-Finnish & FM1 & 10  & 19.7 & 3.7  & 19.8  & 3.7 & &   \\
-\ns & SF1 & 2.5  & 24 & 5.5  & 23.7  & 5.5& &  \\
-\ns &SM1 & 3.5  & 18.7 & 4.2  & 18.1  & 4.2 & &  \\
+\begin{tabular}{llr|rr|rr}
+& & & \multicolumn{2}{|c}{\textbf{4-gram}} & \multicolumn{2}{|c}{\textbf{20-gram}} \\
+\textbf{Language} & \textbf{Voice} & \textbf{\#hours} & \textbf{WER} & \textbf{LER}& \textbf{{WER}} & \textbf{LER} \\\hline %& \textbf{\%+ hours} & \textbf{-WER/hour} \\\hline
+Estonian & EF1 & 8 & 20.8  & 8.8 & 18.8 & 8.3  \\
+Estonian & EM1 & 4.5 & \textcolor{pink}{ 28.0} & \textcolor{pink}{ 10.8}  & \textcolor{pink}{ 26.4} & \textcolor{pink}{ 10.6}  \\
+Finnish & FF1 & 9  & 8.3 & 1.9  & 8.1 &  1.9  \\
+Finnish & FM1 & 10  & 19.7 & 3.7  & 19.8  & 3.7    \\
+\ns & SF1 & 2.5  & 24 & 5.5  & 23.7  & 5.5  \\
+\ns &SM1 & 3.5  & 18.7 & 4.2  & 18.1  & 4.2   \\
 \end{tabular}
 \caption{Speech recognizer results for the full audio books with the bigges language model \label{tbl:resultbigcomp}}
 \end{table}
@@ -412,7 +412,7 @@ Finnish & FM1 & 10  & 19.7 & 3.7  & 19.8  & 3.7 & &   \\
 \begin{table}[!h]
 \centering
 \begin{tabular}{llrrl}
-\textbf{Language} & \textbf{Description} & \textbf{Word Error Rate} & \textbf{Letter Error Rate} & \textbf{Source}\\\hline
+\textbf{Language} & \textbf{Description} & \textbf{WER} & \textbf{LER} & \textbf{Source}\\\hline
 Estonian & Broadcast conversations  & 17.9\% & &  \cite{alumae2014recent} \\
 Estonian & Oral presentations  & 26.3\% & & \cite{alumae2014recent} \\
 Finnish & Speecon testset  & & 2.9\%&  \cite{pylkkonen2012} \\
