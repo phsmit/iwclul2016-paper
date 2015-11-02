@@ -47,7 +47,7 @@
 
 \newcommand{\ds}[1]{\textsc{#1}}
 
-\title{Automatic Speech Recognition for  for \ns} 
+\title{Automatic Speech Recognition for \ns\ with comparison to other Uralic Languages} 
 \author{Peter Smit \\ \texttt{peter.smit@aalto.fi} \and Juho Leinonen \\ \texttt{juho.leinonen@aalto.fi} \and Mikko Kurimo\\ \texttt{mikko.kurimo@aalto.fi}  \\
 [0.5cm]Department of Signal Processing and Acoustics, Aalto University\\}
 
@@ -57,25 +57,22 @@
 \maketitle
 
 \begin{abstract} 
-Speech technology applications for major languages are becoming widely available, but for many other languages there is no commercial interest in developing speech technology. As a lack of technology and applications will threaten the existence of these languages we develop methods to create speech recognizers with minimal effort and low resources.
+Speech technology applications for major languages are becoming widely available, but for many other languages there is no commercial interest in developing speech technology. As the lack of technology and applications will threaten the existence of these languages it is important to study how to create speech recognizers with minimal effort and low resources.
 
-As a test case, we have developed a Large Vocabulary Continous Speech Recognizer for \ns, an uralic langage that has little resources for speech technology available. Using only a limited audio data, 2,5 hours, and the \ns\ Wikipedia as language model we achieved n\% Letter Error Rate. With a language model based on the Trömso dataset we achieved n\% LER. To put this in perspective we also trained systems in other, better-resourced, Uralic languages (Finnish and Estonian) with the same amount of data and compared those to state-of-the art systems in those languages. 
+As a test case, we have developed a Large Vocabulary Continuous Speech Recognizer for \ns, an uralic langage that has little resources for speech technology available. Using only a limited audio data, 2,5 hours, and the \ns\ Wikipedia as language model we achieved 7.6\% Letter Error Rate. With a language model based on a higher quality language corpus we achieved 4.2\% LER. To put this in perspective we also trained systems in other, better-resourced, Uralic languages (Finnish and Estonian) with the same amount of data and compared those to state-of-the art systems in those languages. 
 \end{abstract}
 
-\note{To be submitted to the Second International Workshop on Computational Linguistics for Uralic Languages, iwclul2016. Deadline 2nd November. `Papers should be up to 10 pages in length excluding references'}
 \section{Introduction}
 
-\note{Start introduction with under-resourcedness instead of \ns. Maybe change the title of the paper to reflect the under-resourced focus? }
-
-The field of speech recognition is maturing, as companies start to actively use and sell products utilizing Large Vocubulary Speech Recognition (LVSCR). Especially the creators of operating systems for mobile devices incorporate methods into their products to operated devices using voice.
+The field of speech recognition is maturing, as companies start to actively use and sell products that utilize Large Vocubulary Speech Recognition (LVSCR). Especially the creators of operating systems for mobile devices incorporate methods into their products to operated devices using voice.
 
 These commercial applications however, are only focusing on small fraction of the available languages. Other languages do not have the available resources, in the form of data and expertise, and it is often not commercially viable to create this resources. Especially minority languages and languages from developing countries receive only minor academic and commercial interest for the development of LVCSR systems. \cite{besacier2014automatic}
 
 One for these under-resourced languages is \ns, the largest of the nine Sámi languages with approximately 25 000 speakers. It belongs to the Uralic language family. \cite{ethno18}
 
-Like other languages in the Uralic language familiy, like Finnish and Estonian, it is highly morphological as the language uses independent suffixes extensively. This poses challenges for speech technology applications as the number of inflections, derivations and compoundings cause the size of the vocabulary to be enourmous, especially compared to the languages in the Indo-European family, which are most often researched \cite{karlsson1982}.  The great different number of words causes especially problems in the estimation of language models, which can not produce any words beyond those seen in the the training data. 
+Like other languages in the Uralic language familiy, like Finnish and Estonian, it is highly morphological as the language uses independent suffixes extensively. This poses challenges for speech technology applications as the number of inflections, derivations and compoundings cause the size of the vocabulary to be enourmous, especially compared to the languages in the Indo-European family \cite{karlsson1982}.  The great different number of words causes especially problems in the estimation of language models, which can not produce any words beyond those seen in the the training data. 
 
-\ns\ is an under-resourced language as there are little corpora of spoken and written language available, and financial resources to collect these data are limited. Even though there is active linquist research on \ns, there are limitations to the expert resources avaible for speech recognition, such as pronunciation dictionaries. 
+\ns\ is an under-resourced language as there are little corpora of spoken and written language available, and financial resources to collect these data are limited. Even though there is active linguistic research on \ns, there are limitations to the expert resources avaible for speech recognition, such as pronunciation dictionaries. 
 
 To combat the challenges of building an LVCSR system for an under-resourced language we have employed different techniques. First we used `found data' for building the acoustic and language models. For the acoustic model we needed to bootstrapped from a bigger related language (Finnish). For the language model we used subword units (morphs) to increase the coverage of the language. Similar techiques have been used in \cite{besacier2014automatic,viet2009}.
 
@@ -88,9 +85,9 @@ Another motivation to build a recognizer for \ns\ is to utilize it as part of  a
 
 
 \section{ASR for under-resourced languages}
-The majority of state-of-the art methods in Large Vocabulary Speech Recognition require big amounts of data and expertise. 
+The majority of the state-of-the art methods in Large Vocabulary Speech Recognition require large amounts of data and expertise. 
 
-Firstly, a great number of high quality spoken utterances have to be collected and correctly transcribed. In case of a Speaker-Independent (SI) system, a system that can recognize anyone who speaks the target language, utterance from many different persons is needed. For a Speaker-Dependent (SD) system, a system that can only recognize the voice of the person that spoke the training data, many hours of voice and transcriptions are required.
+Firstly, a great number of high quality spoken utterances have to be collected and correctly transcribed. In the case of Speaker-Independent (SI) systems, a system that can recognize anyone who speaks the target language, utterance from many different persons are needed. For Speaker-Dependent (SD) systems, a system that can only recognize the voice of the person that spoke the training data, only a few hours of voice and transcriptions are required.
 
 The second required dataset is a large corpus of written text, preferably in the same style and domain as what should be recognized by the system. This corpus should at least contain all common words in their expected contexts in order to train a good language model.
 
@@ -104,7 +101,7 @@ The pronuciation dictionary requires normally a great effort and linguistic expe
 
 Lastly, the phoneme question set is a small dataset that can only be made by a language expert. Altough there are algorithms avaible that can replace this set altogther \cite{darjaa2011effective}, this is often undesirable as it effects the systems effectiveness. Another method is to take the phoneme set of a very closely related language, and alter it slightly to reflect the correct set for the target language. This can be often done with only minimal expert effort.
 
-Eventhough there is a (partial) solution to all the expensive data needs, all these solutions do limit the resulting speech recognizer in different ways. In case of state-of-the art ASR systems, always more, higher quality, in domain speech and language data and expertise would improve the system signficantly (up to a certain point). There are however usable systems to be made in the under-resourced situation, with the most limiting factor being that SI systems are unattainable as the number of speakers is too low.
+Eventhough there is a (partial) solution to all the expensive data needs, all these solutions do limit the resulting speech recognizer in different ways. In the case of state-of-the art ASR systems, always more, higher quality, in domain speech and language data and expertise would improve the system signficantly (up to a certain point). There are however usable systems to be made in the under-resourced situation, with the most limiting factor being that SI systems are unattainable as the number of speakers is too low.
 
 
 
@@ -133,9 +130,9 @@ Although there are different tuning possibilities in the acoustic model, specifi
 
 \section{Language modeling}
 
-The language model is an important part of any speech recognition system. Even though theoretically an good acoustic model with lexicon could be enough to output words, a model that takes the word context into account to predict the right output is essential. For languages where different words can have the same pronunciation it is also essential in picking the right word given a pronunciation. 
+The language model is an important part of any speech recognition system. Even though theoretically a good acoustic model with lexicon could be enough to output words, a model that takes the word context into account to predict the right output is essential. For languages where different words can have the same pronunciation it is also essential in picking the right word given a pronunciation. 
 
-N-gram models predict the output of the next word given the `N' previous words. The main issue however with using words as a language model unit for a synthetic language is that to decrease the out-of-vocabulary (OOV) rate to a manageable percentage, a huge lexicon is needed. Since OOV-rate is the minimum WER possible, a OOV-rate much less than 10\% would be necessary. For an English speech recognizer this can be achieved with already with 20 000 words for OOV-rate of 2.4-2.7\% and with a vocabulary of 40 000 words OOV-rate less than one percent is achieved \cite{woodland19951994}. In contrast, a Finnish recognizer needs a 410 000 word vocabulary to have an OOV-rate of 4.0-7.3\% \cite{hirsimaki2006unlimited}.
+N-gram models predict the output of the next word given the `N - 1' previous words. The main issue however with using words as a language model unit for a synthetic language is that to decrease the out-of-vocabulary (OOV) rate to a manageable percentage, a huge lexicon is needed. Since OOV-rate is the minimum WER possible, a OOV-rate much less than 10\% would be necessary. For an English speech recognizer this can be achieved with already with 20 000 words for OOV-rate of 2.4-2.7\% and with a vocabulary of 40 000 words OOV-rate less than one percent is achieved \cite{woodland19951994}. In contrast, a Finnish recognizer needs a 410 000 word vocabulary to have an OOV-rate of 4.0-7.3\% \cite{hirsimaki2006unlimited}.
 
 The alternative to using an word based model a subword model could be used. A subword model builds word out of a smaller set of word fragments. The word fragments can be particular effective in agglunative languages or languages with a lot of compound words, as not all combinations of word fragments have to be seen in a corpus to be output by the model. If the word fragments are choosen correctly the OOV-rate can be close to zero, even for smaller language data corpora.
 
@@ -170,7 +167,7 @@ Although basic N-gram modeling with Knesser-Ney smoothing \cite{chen1996empirica
 
 \section{Experiment setup}
 
-\note{we don't have to explain acoustic modeling, language modelling etc. We do need to tell what recognizer we used (AaltoASR) and what features it has (MFCC's, Gaussian-mixture HMM's, type of decoder). Same for language modeling tools}
+%\note{we don't have to explain acoustic modeling, language modelling etc. We do need to tell what recognizer we used (AaltoASR) and what features it has (MFCC's, Gaussian-mixture HMM's, type of decoder). Same for language modeling tools}
 
 
 The system the experiments were carried out on was AaltoASR \cite{hirsimaki2009importance}\cite{pylkkonen2005efficient}. It uses context-dependent triphones with diagonal Gaussian mixture models (GMM) as emission distributions and the speech features itself are extracted with Mel-frequency cepstral coefficients (MFFCs). 
@@ -216,9 +213,9 @@ Variable length n-grams are used for language modelling generated with both SRIL
 
 \section{\ns\ ASR evaluation} 
 \label{sec:samiexp}
-The audio data used for the \ns\ recognizer came from the UIT-SME-TTS corpus \footnote{Provided by the University of Tromsø}. The Male audio data was 4.7 hours and the Female data 3.3 hours. As we needed to separate data for development and evaluation only 75\% was used for training; 3.5 and 2.5 hours respectively.
+The audio data used for the \ns\ recognizer came from the UIT-SME-TTS corpus\footnote{Provided by the University of Tromsø}. The Male audio data was 4.7 hours and the Female data 3.3 hours. As we needed to separate data for development and evaluation only 75\% was used for training; 3.5 and 2.5 hours respectively.
 
-The initial recognition model was created by using a Finnish model. With this model the audio data was split into sentences and trained with the procedure described in Section~\ref{sec:align} two speaker dependent systems, one for the male and one for the female speaker (resp. SM1 and SF1). These models are Speaker-Dependent models, so are only usable for the speaker that the system is trained for. As there is only data from two speakers available this was the only option. 
+The initial recognition model was created by using a Finnish model. With this model the audio data was split into sentences and trained with the procedure described in Section~\ref{sec:align} two speaker dependent systems, one for the male and one for the female speaker (resp. SM1 and SF1). These models are Speaker-Dependent models; they are only usable for the speaker that the system is trained for. As there is only data from two speakers available this was the only option. 
 
 For language model we evaluated both word and morph n-gram models. We used as text data the training sentences together with the \ns\ wikipedia dump (\ds{Train+Wiki}).
 
@@ -227,7 +224,7 @@ The results for basic recognition are shown in Table~\ref{tbl:samibasic}. Beside
 \begin{table}[!h]
 \centering
 \begin{tabular}{ll|rrr|rrr}
-& & & \textbf{Speaker SF1} & & & \textbf{Speaker SM1} & \\
+& & \multicolumn{3}{|c|}{\textbf{Speaker SF1}} & \multicolumn{3}{|c}{\textbf{Speaker SM1}} \\
  \textbf{Unit} & \textbf{Toolkit} & \textbf{5-gram} & \textbf{7-gram} & \textbf{9-gram} & \textbf{5-gram} & \textbf{7-gram} & \textbf{9-gram}\\\hline
  words & SRILM & 52.9 / 12.7 & 52.9 / 12.7& 52.9 / 12.7&48.6 / 11.1 & 48.7 / 11.1 & 48.7 / 11.1\\
 morphs & SRILM & 40.0 /  9.0 & 39.9 / 9.3& 39.1 / 9.1 & 37.6 / 8.5 & 36.8 / 8.4 & 37.3 / 8.5 \\
@@ -256,7 +253,9 @@ Male & 20 \% & 0 \%\\
 \end{table}
 
 
-For word based models there is no effect on using higher order models. Figure~\ref{fig:samiperf} even shows that any order above 3 gives the same result as a 3-gram model. For morph-based models there are clear effects on using higher order models. This is because in order to model the same context as a word model, more units of a subword model are need. \todo{P}{Replace this with a graph of using the \ds{Big} language model for \ns.}
+For word based models there is no effect on using higher order models. Figure~\ref{fig:samiperf} shows the results for the SM1 system, with the \ds{Big} sami language model, model trained from appr 12 million word tokens of data from `Den samiske textbanken'. For the word models there is no change in performance after the 3rd order ngrams. For VariKN morph-based models there are clear effects on using higher order models. This is because in order to model the same context as a word model, more units of a subword model are needed. SRILM does not do very well on this morph data, which is caused by the limitited pruning/growing algorithms of SRILM.
+
+The best Word Error Rate on the \ds{Big} language model for the SM1 system is 18.2\%, the best Letter Error Rate 4.2\%. 
 
 \begin{figure}[!h]
 \centering
@@ -267,7 +266,7 @@ For word based models there is no effect on using higher order models. Figure~\r
 
 
 
-The last observation is that the VariKN toolkit does a better job in creating a high-order ngram model for morph models. This is expected as it is specifically designed to be used for this purpose.
+%The last observation is that the VariKN toolkit does a better job in creating a high-order ngram model for morph models. This is expected as it is specifically designed to be used for this purpose.
 
 
 
@@ -297,7 +296,7 @@ The last observation is that the VariKN toolkit does a better job in creating a 
 
 \section{Comparsion of low-resource systems for multiple languages}
 \label{sec:compexp}
-To compare the results of the \ns\ recognizer with recognizers in different languages we first trained speaker dependent models for both Finnish and Estonian audiobooks. The available audio datasets are described in Table~\ref{tbl:amdatacomp} and the available text corpora in Table~\ref{tbl:lmdatacomp}.
+To compare the results of the \ns\ recognizer with recognizers in different languages we first train speaker dependent models for both Finnish and Estonian audiobooks. The available audio datasets are described in Table~\ref{tbl:amdatacomp} and the available text corpora in Table~\ref{tbl:lmdatacomp}.
 
 
 \begin{table}[!h]
@@ -307,12 +306,14 @@ To compare the results of the \ns\ recognizer with recognizers in different lang
 EF1 & Estonian & Female &Nils Holgerssoni imeline teekond läbi Rootsi  & 16 hours \\
 EM1 & Estonian & Male & Würst Gabriel ehk Pirita kloostri wiimsed päewad & 6 hours \\
 FF1 & Finnish & Female & Syntymättömien sukupolvien Eurooppa & 12 hours\\
-FM1 & Finnish & Male & Seitsemän veljestä & 13 hours\\
+FM1 & Finnish & Male & Seitsemän veljestä\footnote{Provided by YLE. Can be listened on  \url{http://areena.yle.fi/1-1301621}} & 13 hours\\
 SF1 & \ns & Female & UIT-SME-TTSF & 3.3 hours  \\
 SM1 & \ns & Male & UIT-SME-TTSM & 4.6 hours \\
 \end{tabular}
-\caption{Audio data for the trained speaker dependent systems\label{tbl:amdatacomp}}
+\caption{Audio data for the trained speaker dependent systems.\label{tbl:amdatacomp}}
 \end{table}
+
+Even though all datasets are audiobooks, there a number of differences. EF1, EM1 and FM1 were encoded in mp3-format, while for the FF1, SM1 and SF1 audiobooks original high quality wav files were available. The speaking style was generally the same, with a story-telling prosody. The exception to this was the FF1 book, an audiobook created for blind persons, which has been read in a very monotone voice with little prosodic variation. This makes the book also understandable when played at higher speeds.
 
 \begin{table}[!h]
 \centering
@@ -331,13 +332,12 @@ Estonian & Wikipedia &  895k & 10M & 778k \\
 %SmeF & \ns & Female & &  \\
 %SmeM & \ns & Male & & \\
 \end{tabular}
-\caption{Language modeling data for the trained speaker dependent systems\label{tbl:lmdatacomp}}
+\caption{Language modeling data for the trained speaker dependent systems.\label{tbl:lmdatacomp}}
 \end{table}
 
 As the experiments in Section~\ref{sec:samiexp} have confirmed the hypothesis that morph-based n-gram models trained with VariKN give the best performance only this combination will be tested.
 
-The comparable system takes only 2.5 hours of audio data and a random 10.000 sentences of the wikipedia data set for each language. The systems are trained with a 6-gram varikn language model. The statistics in Table~\ref{tbl:lmdatacomp_small} show that the datasets are equal in amount of sentences, but not in numbers of word types and tokens. This is most likely because the \ns\ wikipedia has more stub articles that contain short sentences with similar words.
-
+To compare the systems fairly, we artifically reduce the amount of audio an text data to mach that of our smallest system. We only use 2.5 hours of audio data and a random 10.000 sentences of the wikipedia data set for each language. The systems are trained with a 10-gram VariKN subword language model. The statistics in Table~\ref{tbl:lmdatacomp_small} show that the datasets are equal in amount of sentences, but not in numbers of word types and tokens. This is most likely because the \ns\ wikipedia has more stub articles that contain short sentences with similar words.
 
 \begin{table}[!h]
 \centering
@@ -353,29 +353,33 @@ Estonian &   10k & 108k & 41k \\
 %SmeF & \ns & Female & &  \\
 %SmeM & \ns & Male & & \\
 \end{tabular}
-\caption{Reduced subsets of wikipedia data for use in the \ds{Train+Wiki} language model\label{tbl:lmdatacomp_small}}
+\caption{Reduced subsets of wikipedia data for use in the \ds{Train+Wiki} language model.\label{tbl:lmdatacomp_small}}
 \end{table}
 
-The results of the small recognizers are shown in Table~\ref{tbl:resultssmallcomp}. There are significant differences between the languages, especially Estonian having very high error rates. There are two reasons for this. First, the Estonian audio books are containing older language then is current, which causes the language model to mismatch with the actual transcriptions. Secondly, there is a clear different in audio and pronuncation quality between the Estonian and the other audiobooks. 
+The results of the comparable systems with the \ds{Train+Wiki} dataset are shown in Table~\ref{tbl:resultssmallcomp}. The word error rates are very close to another, confirming that the systems are comparable. One exception is the FF1 systems, which performs much better. This better result is most likely a combination of very good quality recording and a better match between the text of the language model and the test data.
+
+We also tested the models with the same amount of acoustic data and their respective \ds{Big} language models. The improvements are very significant with the best being 64\% relative improvement in WER for the FF1 system. This shows the importance of the availability of high quality language model data for the performance of a Uralic speech recognition system. The amount of data however is less important, as the \ds{Big} language model for \ns\ gives a similar improvement as the \ds{Big} language models for the other systems, even though the amount of data in the \ds{Big} language model for \ns\ is lower than the amount of data in the \ds{Train+Wiki} systems for Estonian and Finnish.
 
 \begin{table}[!h]
 \centering
 \begin{tabular}{ll|rr|rr}
  & & \multicolumn{2}{|c|}{\textbf{\ds{Train+Wiki}}}  & \multicolumn{2}{|c}{\textbf{\ds{Big}}}\\
 \textbf{Language} & \textbf{Voice} & \textbf{WER} & \textbf{LER}& \textbf{{WER}} & \textbf{LER}\\\hline
-Estonian & EF1 & 39.6 & 15.8  &\textcolor{pink}{ 23.4}  &\textcolor{pink}{  10.1 }\\
-Estonian & EM1 & \textcolor{pink}{ 38.8} & \textcolor{pink}{ 13.4}& \textcolor{pink}{ 24.1} & \textcolor{pink}{ 6.5} \\
+Estonian & EF1 & 39.6 & 15.8 & 25.0 & 11.4\\
+Estonian & EM1 & 39.2 & 13.3 & 25.5 & 9.6\\
 Finnish & FF1 & 25.2 &4.1& 8.9 & 2.1  \\
-Finnish & FM1 &  35.8 & 7.7& 24.9 &  5.6 \\
+Finnish & FM1 & 35.8 & 7.7 & 24.9 &  5.6 \\
 \ns & SF1 & 37.5 & 8.5 & 23.7  & 5.5 \\
 \ns & SM1 & 39.5 & 9.4& 20.9 & 4.9  \\
 \end{tabular}
-\caption{Word Error Rates for using 2.5 hours of training data and either the \ds{Train+Wiki} or \ds{Big} language models. All language models were 10-gram VariKN subword models, with a 3-gram lookahead model.\label{tbl:resultssmallcomp}. \textcolor{pink}{Pink results are still in progress and show the result on a smaller test set}}
+\caption{Word Error Rates for using 2.5 hours of training data and either the \ds{Train+Wiki} or \ds{Big} language models. All language models were 10-gram VariKN subword models, with a 3-gram lookahead model.\label{tbl:resultssmallcomp}}
 \end{table}
 
-The \ns\ system performance is very close to that of the FM1 system. Using the \ds{Train+Wiki} language model the results are slightly worse, using the \ds{Big} language model the results are slightly better. This shows that the recognizer is working correctly for \ns, even though no specific changes have been made to optimize for the language.
+To see the effect of using more acoustic data, we also trained all systems on their full acoustic datasets and evaluated them with the \ds{Big} language model. Whereas the 2.5 hour data systems were all modeled with appr. 7500 gaussians, the bigger models have proportionally more. 
 
-The models have also been trained using all available audio data. These results are shown in Table~\ref{tbl:resultbigcomp}
+The results are shown in Table~\ref{tbl:resultbigcomp}.  There are a couple of suprising results. For the FF1 system, there is a little improvement on the already very good result. On the other hand, the SM1 already improves with 13\% relative WER with only an hour of added data. In general there is a clear pattern that more acoustic data will improve the model, but that the effects can be limited if the system has already a good model with just 2.5 hours of data.
+
+
 
 %\begin{table}[!h]
 %\centering
@@ -392,22 +396,26 @@ The models have also been trained using all available audio data. These results 
 %\end{table}
 
 
-\begin{table}[!h]
+\begin{table}[!ht]
 \centering
-\begin{tabular}{llr|rr|rr}
-& & & \multicolumn{2}{|c}{\textbf{4-gram}} & \multicolumn{2}{|c}{\textbf{20-gram}} \\
-\textbf{Language} & \textbf{Voice} & \textbf{\#hours} & \textbf{WER} & \textbf{LER}& \textbf{{WER}} & \textbf{LER} \\\hline %& \textbf{\%+ hours} & \textbf{-WER/hour} \\\hline
-Estonian & EF1 & 8 & 20.8  & 8.8 & 18.8 & 8.3  \\
-Estonian & EM1 & 4.5 & \textcolor{pink}{ 28.0} & \textcolor{pink}{ 10.8}  & \textcolor{pink}{ 26.4} & \textcolor{pink}{ 10.6}  \\
-Finnish & FF1 & 9  & 8.3 & 1.9  & 8.1 &  1.9  \\
-Finnish & FM1 & 10  & 19.7 & 3.7  & 19.8  & 3.7    \\
-\ns & SF1 & 2.5  & 24 & 5.5  & 23.7  & 5.5  \\
-\ns &SM1 & 3.5  & 18.7 & 4.2  & 18.1  & 4.2   \\
+\begin{tabular}{llrr|rr|rr}
+& & & & \multicolumn{2}{|c}{\textbf{2.5 hours}} & \multicolumn{2}{|c}{\textbf{All data}} \\
+\textbf{Language} & \textbf{Voice} & \textbf{\#hours}  &\textbf{\#gaussians} & \textbf{WER} & \textbf{LER}& \textbf{{WER}} & \textbf{LER} \\\hline %& \textbf{\%+ hours} & \textbf{-WER/hour} \\\hline
+Estonian & EF1 & 8 &31.5k & 25.0  & 11.4 & 18.8 & 8.3  \\
+Estonian & EM1& 4.5& 12.6k&25.5 & 9.6  & 23.2 & 8.4  \\
+Finnish & FF1 & 9 & 26k & 8.9 & 2.1  & 8.1 &  1.9  \\
+Finnish & FM1 & 10 & 28k & 24.9 & 5.6  & 19.8  & 3.7    \\
+\ns & SF1 & 2.5   & 7.7k & 23.7  & 5.5  & 23.7  & 5.5  \\
+\ns &SM1 & 3.5 &9.6k & 20.9 & 4.9  & 18.1  & 4.2   \\
 \end{tabular}
-\caption{Speech recognizer results for the full audio books with the bigges language model \label{tbl:resultbigcomp}}
+\caption{Speech recognizer results for the full audio books with the \ds{Big} language model.\label{tbl:resultbigcomp}}
 \end{table}
 
-\note{Compare here the results of all the audio data to the small set. Note how little the FF1 actually gained. EF1 on the other hand benefitted a lot from extra audio data}
+%\note{Compare here the results of all the audio data to the small set. Note how little the FF1 actually gained. EF1 on the other hand benefitted a lot from extra audio data}
+
+
+\subsection{State of the art recognizers}
+The experiments in the previous sections show that results on Finnish and Estonian systems are comparable with \ns\ systems if the same amount of data is provided. This allows us to look to the state-of-the-art recognitions systems for Finnish and Estonian systems and project how well a \ns\ system would perform if the same amount of data would be collected.
 
 \begin{table}[!h]
 \centering
@@ -416,24 +424,34 @@ Finnish & FM1 & 10  & 19.7 & 3.7  & 19.8  & 3.7    \\
 Estonian & Broadcast conversations  & 17.9\% & &  \cite{alumae2014recent} \\
 Estonian & Oral presentations  & 26.3\% & & \cite{alumae2014recent} \\
 Finnish & Speecon testset  & & 2.9\%&  \cite{pylkkonen2012} \\
+Estonian & Telephone speech &21.6\% & 11.9\% & \cite{hirsimaki2009importance}\\
+Finnish & Telephone speech & 33.1\% & 6.8\% & \cite{hirsimaki2009importance}\\
 \end{tabular}
-\caption{State of the art results for Finnish and Estonian Speaker Independent ASR}
+\caption{State of the art results for Finnish and Estonian Speaker Independent ASR.}\label{tbl:stateoftheart}
 \end{table}
-\note{Mention state of the art}
 
-\note{Possible increase goes to conclusions}
-\todo{P}{Mention different number of Gaussians or remove reference in Acoustic Modeling section}
-State of the art in Finnish \cite{hirsimaki2006unlimited} and Estonian \cite{kurimo2015modeling}
+Table~\ref{tbl:stateoftheart} shows the reported error rates for different Speaker Independent systems. The most important difference with the systems discussed in the previous sections is that these are Speaker Independent recognizers, which are tested with different speakers than those present in the training data. Also the quality and type of speech are different.
+
+
+%\todo{P}{Mention different number of Gaussians or remove reference in Acoustic Modeling section}
+
 
 
 \section{Conclusions} 
-\note{Report the basic results on a Sami SD speech recognizer. Compare them with same condition Finnish and Estonian recognizer. Show the potential for SD systems by extrapolating to full audio book results for Finnish and Estonian and show the potentail to SI system by simply reporting previous results}
+We have trained Speaker Dependent speech recognitions systems for \ns, and under-resourced Uralic language, and achieved a letter error rate of only 4.2\%. To put this result in perspective and validate the techniques used for training a systems for under-resourced languages we also trained systems for Finnish and Estonian using artificially limited datasets. These experiments have shown that the \ns\ recognizer gives comparable results as Finnish and Estonion recognizers and needs similar techniques such as subword language models.
 
-\note{Future work is developing more methods to make an SI recognizer using only limited data, e.g. by using foreign data in AM training}
+
+In future work we plan to use cross-lingual techniques to also build speaker independent systems for \ns, even though the available acoustic datasets might not be available, or available without transcriptions.
+
+
+
+%\note{Report the basic results on a Sami SD speech recognizer. Compare them with same condition Finnish and Estonian recognizer. Show the potential for SD systems by extrapolating to full audio book results for Finnish and Estonian and show the potentail to SI system by simply reporting previous results}
+
+%\note{Future work is developing more methods to make an SI recognizer using only limited data, e.g. by using foreign data in AM training}
 
 \section{Acknowledgements} 
-We thank Kristiina Jokinen for her help in providing linguistic expertise for \ns. We thank the University of Tromsø for the access to their \ns datasets. \todo{}{Add wikitalk/digisami?} \todo{Mikko}{Coin or any other projects?}
-We acknowledge the computational resources provided by the Aalto Science-IT project.
+We thank Kristiina Jokinen for her help in providing linguistic expertise for \ns. We thank the University of Tromsø for the access to their \ns\ datasets.  This research has been supported by the Academy of Finland under the Finnish Centre of Excellence Program 2012--2017 (grant n\textdegree251170, COIN).
+We acknowledge the computational resources provided by the Aalto Science-IT project. 
 
 
 
