@@ -134,7 +134,7 @@ A language model predicts or scores words based on their sentence context. The m
 The alternative to using an word based model a subword model could be used. A subword model builds word out of a smaller set of word fragments. The word fragments can be particular effective in agglutinative languages or languages with a lot of compound words, as not all combinations of word fragments have to be seen in a corpus to be output by the model. If the word fragments are chosen correctly the OOV-rate can be close to zero, even for smaller language data corpora.
 
 \subsection{Morfessor}
-Morfessor is a machine learning tool that uses a statistical model to split text into smaller fragments, which can be used for language modeling \cite{creutz2007unsupervised}. This resembles closely the splitting of words into it smallest informational units, morphemes. The basic working is inspired by Minimum Description Length.
+Morfessor is a machine learning tool that uses a statistical model to split text into smaller fragments, which can be used for language modeling \cite{creutz2007unsupervised}. This resembles closely the splitting of words into their smallest informational units, morphemes. The basic working is inspired by Minimum Description Length.
 
 The three components of a Morfessor are the model, the cost function, and training and decoding algorithms. The model contains the lexicon: properties of the morphs, the written form of the morph itself and its frequency, and the grammar: how the morphs can be combined into words. The Morfessor cost function is derived from a MAP estimation with the goal of finding the optimal parameters $\bm{\theta}$ given the observed training data $\bm{D}_W$:
 
@@ -158,7 +158,7 @@ A greedy search algorithm is used to find the optimal segmentation of morphs for
 
 \ngram\ models predict the output of the next word or subword given the $n-1$ previous words or subwords. They are normally created by counting all occurrences of a different context. To prevent the model from being too big and too much tailored to the training data (overfitting), pruning is applied. Also, some of the probability mass is reserved for unseen contexts, for example with the Knesser-Ney smoothing technique\cite{chen1996empirical}.
 
-As most \ngram\ models are used with words as a unit, the order of most models is quite limited. If the order would be high, the models would get too big and not contain enough useful information. With subword models however, the contexts can be much deeper, as there are less types in the vocabulary and the context counts are more sparse. Also intuitively, a higher order model is need to cover the same context as a word based model.
+As most \ngram\ models are used with words as a unit, the order of most models is quite limited. If the order would be high, the models would get too big and not contain enough useful information. With subword models however, the contexts can be much deeper, as there are less types in the vocabulary and the context counts are more sparse. Also intuitively, a higher order model is needed to cover the same context as a word based model.
 Standard tools have problems with correctly backing off and growing deep \ngram\ language models.  \cite{siivola2007growing} has created methods to overcome this limitation of standard \ngram\ tools and it is the de facto standard for building higher order \ngram\ models for subword units.
 
 %Also for For decoding we have used the AaltoASR decoder, which is specialized in decoding morph-language models with deep contexts.
@@ -181,7 +181,7 @@ Important parameters of the models (the number of samples used to estimate a Gau
 
 \section{\ns\ ASR evaluation} 
 \label{sec:samiexp}
-The audio data used for the \ns\ recognizer came from the UIT-SME-TTS corpus\footnote{Provided by the University of Tromsø}. The Male audio data was 4.7 hours and the Female data 3.3 hours. As we needed to separate data for development and evaluation, only 75\% was used for training; 3.5 and 2.5 hours for the Male and Femal data respectively.
+The audio data used for the \ns\ recognizer came from the UIT-SME-TTS corpus\footnote{Provided by the University of Tromsø}. The Male audio data was 4.7 hours and the Female data 3.3 hours. As we needed to separate data for development and evaluation, only 75\% was used for training; 3.5 and 2.5 hours for the Male and Female data respectively.
 
 The initial recognition model was created by using a Finnish model. With this model, the audio data was split into sentences and trained with the procedure described in Section~\ref{sec:align}. This resulted in two speaker dependent systems, one for the male and one for the female speaker (resp. SM1 and SF1). These models are Speaker-Dependent models; they are only usable for the speaker that the system is trained for. As there is only data from two speakers available this was the only option. 
 
@@ -227,7 +227,7 @@ The best Word Error Rate on the \ds{Big} language model for the SM1 system is 18
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{figures/sme1}
+\includegraphics[width=.9\textwidth]{figures/sme1}
 \caption{Word error rates for the SM1 system with the \ds{Big} language model.}\label{fig:samiperf}
 
 \end{figure}
@@ -239,7 +239,7 @@ The best Word Error Rate on the \ds{Big} language model for the SM1 system is 18
 
 \section{Comparison of low-resource systems for multiple languages}
 \label{sec:compexp}
-To compare the results of the \ns\ recognizer with recognizers in different languages we first train Speaker Dependent models for both Finnish and Estonian audio books. The available audio datasets are described in Table~\ref{tbl:amdatacomp} and the available text corpora in Table~\ref{tbl:lmdatacomp}.
+To compare the results of the \ns\ recognizer with recognizers in different languages we first train Speaker Dependent models for both Finnish and Estonian audio books. The available audio datasets are described in Table~\ref{tbl:amdatacomp} and the available text corpora in Table~\ref{tbl:lmdatacomp}. 
 
 
 \begin{table}
@@ -274,7 +274,9 @@ Estonian & Wikipedia &  895k & 10M & 778k \\
 
 The experiments in Section~\ref{sec:samiexp} have confirmed the hypothesis that morph-based \ngram\ models trained with the VariKN toolkit give the best performance, hence only this combination will be used.
 
-To compare the systems fairly, we artificially reduce the amount of audio an text data to match that of our smallest system. We only use 2.5 hours of audio data system and a random 10.000 sentences of the Wikipedia data set for each language. The systems are trained with a 10-gram VariKN subword language model. The statistics in Table~\ref{tbl:lmdatacomp_small} show that the datasets are equal in amount of sentences, but not in numbers of word types and tokens. This is most likely because the \ns\ Wikipedia has more stub articles that contain short sentences with similar words.
+To compare the systems fairly, we artificially reduce the amount of audio and text data to match that of our smallest system. We only use 2.5 hours of audio data and a random 10.000 sentences of the Wikipedia data set for each language. The systems are trained with a 10-gram VariKN subword language model. The statistics in Table~\ref{tbl:lmdatacomp_small} show that the datasets are equal in amount of sentences, but not in numbers of word types and tokens. This is most likely because the \ns\ Wikipedia has more stub articles that contain short sentences with similar words.
+
+The \ds{Train+Wiki} language models are trained from the combination of the recognizer's training sentences and the small Wikipedia dataset as described in Table~\ref{tbl:lmdatacomp_small}. The \ds{Big} language models are trained from the higher quality text sources, which are described in Table~\ref{tbl:lmdatacomp}.
 
 \begin{table}
 \centering
