@@ -84,7 +84,7 @@
 \begin{abstract} 
 Speech technology applications for major languages are becoming widely available, but for many other languages there is no commercial interest in developing speech technology. As the lack of technology and applications will threaten the existence of these languages, it is important to study how to create speech recognizers with minimal effort and low resources.
 
-As a test case, we have developed a Large Vocabulary Continuous Speech Recognizer for \ns, an Finno-Ugric language that has little resources for speech technology available. Using only limited audio data, 2.5 hours, and the \ns\ Wikipedia for the language model we achieved 7.6\% Letter Error Rate (LER). With a language model based on a higher quality language corpus we achieved 4.2\% LER. To put this in perspective we also trained systems in other, better-resourced, Finno-Ugric languages (Finnish and Estonian) with the same amount of data and compared those to state-of-the art systems in those languages. 
+As a test case, we have developed a Large Vocabulary Continuous Speech Recognizer for \ns, an Finno-Ugric language that has little resources for speech technology available. Using only limited audio data, 2.5 hours, and the \ns\ Wikipedia for the language model we achieved 7.6\% Letter Error Rate (LER). With a language model based on a higher quality language corpus we achieved 4.2\% LER. To put this in perspective we also trained systems in other, better-resourced, Finno-Ugric languages (Finnish and Estonian) with the same amount of data and compared those to state-of-the-art systems in those languages. 
 \end{abstract}
 
 \section{Introduction}
@@ -239,7 +239,9 @@ Male & 20\% & 0\%\\
 \end{table}
 
 
-For word-based models there is no effect on using higher order \ngram s. This can be seen in Figure~\ref{fig:samiperf}  which shows WER for different \ngram\ models with the SM1 system. In this comparsion we used the\ds{Big} \ns\ language model which is trained from approximately 12 million word tokens of data from `Den samiske textbanken'. There is no change in performance after the 3rd order \ngram s for the the word-based model, whereas for the VariKN morph-based models there are clear effects when using higher order models. To model the same context as a word model, more units of a sub-word model are needed. The SRILM tool does not do very well on this morph data, which is caused by the limited smoothing/growing algorithms of SRILM. %TODO unclear
+For word-based models there is no effect on using higher order \ngram s. This can be seen in Figure~\ref{fig:samiperf}  which shows WER for different \ngram\ models with the SM1 system. In this comparsion we used the\ds{Big} \ns\ language model which is trained from approximately 12 million word tokens of data from `Den samiske textbanken'. There is no change in performance after the 3rd order \ngram s for the the word-based model, whereas for the VariKN morph-based models there are clear effects when using higher order models. 
+
+%To model the same context as a word model, more units of a sub-word model are needed. The SRILM tool does not do very well on this morph data, which is caused by the limited smoothing/growing algorithms of SRILM. %TODO unclear
 
 The best Word Error Rate on the \ds{Big} language model for the SM1 system is 18.2\%, the best Letter Error Rate 4.2\%. 
 
@@ -348,7 +350,7 @@ Finnish & FM1 & 10 & 28k & 24.9 & 5.6  & 19.8  & 3.7    \\
 \end{table}
 
 
-\subsection{State of the art recognizers}
+\subsection{State-of-the-art recognizers}
 The experiments in the previous sections show that results on Finnish and Estonian systems are comparable with \ns\ systems if the same amount of data is provided. This allows us to look to the state-of-the-art recognitions systems for Finnish and Estonian systems and project how well a \ns\ system would perform if the same amount of data would be collected.
 
 \begin{table}
