@@ -1,10 +1,10 @@
-MAIN := sami_aviisa
+MAIN := iwclul2016smit 
 
-.PHONY: all clean
+.PHONY: iwclul2016smit.pdf all clean
 
-all: $(MAIN).pdf
+all: iwclul2016smit.pdf
 
-%.pdf: %.tex
+iwclul2016smit.pdf: iwclul2016smit.tex
 	latexmk -xelatex -use-make $<
 
 clean:
