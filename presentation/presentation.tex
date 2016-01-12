@@ -1,0 +1,128 @@
+% !TEX root = ./presentation_screen.tex
+% !TEX encoding = UTF-8
+%
+%\usepackage[texencoding=utf8,backend=biber,style=authoryear-comp,bibstyle=authoryear,citestyle=authoryear-comp]{biblatex}
+
+
+\usepackage[english]{babel} 
+\usepackage{amssymb,amsmath,amsbsy,mathrsfs}
+\usepackage{ulem}
+\renewcommand<>{\sout}[1]{
+  \only#2{\beameroriginal{\sout}{#1}}
+  \invisible#2{#1}
+}
+
+\usepackage[SchoolofElectricalEngineering]{aaltologo}
+\DeclareRobustCommand{\AaltoLogoRandomize}[1][rby]{%
+\setcounter{aaltologo_color}{2}\gdef\AaltoLogoColor{aaltoBlue}%
+\setcounter{aaltologo_mark}{1}\gdef\AaltoLogoMark{?}%
+}
+
+% Now set the theme
+\usetheme[invariant,sidebar,school=SchoolofElectricalEngineering]{Aalto}
+%\usetheme{Aalto}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{tikz}
+
+\usetikzlibrary{shapes.geometric,positioning,calc,fit,matrix,decorations.pathmorphing}
+\usepackage{tikz-qtree}
+\usepackage{graphicx}
+
+
+\newcommand{\ns}{Northern Sámi}
+
+
+\bibliography{topic}
+
+\title{Automatic Speech Recognition for \ns\ with comparison to other Uralic Languages}
+%\subtitle{Computational pragmatics}
+%\subtitle[Chpt 11.5,13]{Techniques for Noise Robustness in Automatic Speech Recognition, Chapter 11.5 \& 13}
+\author[Peter Smit]{Peter Smit, Juho Leinonen, Kristiina Jokinen, Mikko Kurimo}
+\institute[Aalto University/Helsinki University]{Aalto University \\ Helsinki University}
+\date{January 20, 2016}
+
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+%\section{Introduction}
+%\begin{frame}
+%\frametitle{Spoken Dialogue}
+%
+%\begin{itemize}
+%\item For face recognition we would like faces to be on the same alignment
+%\end{itemize}
+%\end{frame}
+
+\begin{frame}
+\frametitle{Contents}
+\tableofcontents
+\end{frame}
+
+%\section{Morfessor Categories MAP}
+
+
+\section{A diaglogue system for Northern Sami}
+\begin{frame}
+\frametitle{General stuff about ASR}
+\begin{itemize}
+\item hi
+\end{itemize}
+\end{frame}
+
+
+\section{Speech Recognition}
+\begin{frame}
+\frametitle{General stuff about ASR}
+\begin{itemize}
+\item hi
+\end{itemize}
+\end{frame}
+
+\section{Under-resourced Languages}
+\begin{frame}
+\frametitle{Under-resourced Languages}
+În privinţa celor mai semnificative adăugiri la propunere, sunt întru totul de acord cu controalele ex ante pentru noile servicii oferite de instituţiile audiovizuale publice, dar numai sub condiţia ca aceste controale să fie adaptate modelului instituţional al fiecărui stat şi ca ele să fie adoptate treptat.
+
+\end{frame}
+%
+
+\section{Experiments}
+\begin{frame}
+\frametitle{Experiments}
+în privinţa celor mai semnificative adăugiri la propunere sunt întru totul de acord cu controalele ex ante pentru noile servicii oferite de instituţiile audiovizuale publice dar numai sub condiţia ca aceste controale să fie adaptate modelului instituţional al fiecărui stat şi ca ele să fie adoptate treptat 
+\end{frame}
+
+
+
+\section*{Video}
+\begin{frame}
+\frametitle{Video}
+\begin{center}
+\url{https://youtu.be/14jYeViJ0X0}
+\end{center}
+\end{frame}
+
+
+\section*{Questions}
+
+\begin{frame}
+\frametitle{Questions}
+\begin{center}
+Questions and Discussions
+\end{center}
+\end{frame}
+
+
+%\begin{frame}[allowframebreaks]
+%\printbibliography
+%
+%\end{frame}
+%
+
+
+\end{document}
