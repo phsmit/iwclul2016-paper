@@ -34,7 +34,7 @@
 \newcommand{\ns}{Northern Sámi}
 
 
-\bibliography{topic}
+%\bibliography{topic}
 
 \title{Automatic Speech Recognition for \ns\ with comparison to other Uralic Languages}
 %\subtitle{Computational pragmatics}
@@ -57,6 +57,17 @@
 %\item For face recognition we would like faces to be on the same alignment
 %\end{itemize}
 %\end{frame}
+\begin{frame}
+\frametitle{Aalto University Speech Recognition Research Group}
+\begin{itemize}
+\item Former Helsinki University of Technology
+\item Prof. Mikko Kurimo
+\item Broad-ranged research in Speech Recognition and Language Modeling, with special focus on FInnish
+\item Home of Morfessor\\[1cm]
+\item Speech technology for under-resourced languages
+\end{itemize}
+\end{frame}
+
 
 \begin{frame}
 \frametitle{Contents}
@@ -64,6 +75,8 @@
 \end{frame}
 
 %\section{Morfessor Categories MAP}
+
+
 
 
 \section{A diaglogue system for Northern Sami}
@@ -77,6 +90,15 @@
 \end{frame}
 
 \begin{frame}
+\frametitle{Previous work}
+\begin{itemize}
+\item Commercial Speech Synthesis system by Acapela Group\\
+\item Linguistic databases and tools by University of Tromsø\\[1cm]
+\item Master's thesis by Leinonen (2015)\\
+\end{itemize}
+\end{frame}
+
+\begin{frame}
 \frametitle{Speech Technology for Northern Sami - Challenges}
 \begin{itemize}
 \item Only a limited amount of transcribed audio data is availabe for making asr/tts models
@@ -85,7 +107,7 @@
 
 
 
-\section{Speech Recognition}
+\section[Speech Recognition]{Automatic Speech Recognition (ASR)}
 \begin{frame}
 \frametitle{What is needed for speech recognition?}
 \begin{itemize}
@@ -101,7 +123,7 @@
 \end{frame}
 
 
-\section{Under-resourced Languages}
+\section[Under-resourced]{ASR for Under-Resourced languages}
 \begin{frame}
 \frametitle{Challenges for Under-resourced Languages}
 \begin{itemize}
@@ -112,10 +134,28 @@
 
 \section{Experiments}
 \begin{frame}
-\frametitle{Experiments}
-a
+\frametitle{\ns\ model with Wikipedia language model}
+
+\begin{tabular}{ll|rrr|rrr}
+& & \textbf{Speaker SF1} & \textbf{Speaker SM1} \\
+ \textbf{Unit} & \textbf{Toolkit} & \textbf{9-gram} & \textbf{9-gram}\\\hline
+ words & SRILM & 52.9 / 12.7&  48.7 / 11.1\\
+morphs & SRILM & 39.1 / 9.1 &  37.3 / 8.5 \\
+ morphs & VariKN   & 37.6 / 8.7 & 34.1 / 7.9 \\
+%DST & words & SRILM & & & & & & \\
+%DST & morphs & SRILM & & & & & & \\
+%DST & morphs & VariKN  & & & & &  & \\ 
+
+\end{tabular}
+\\[1cm]
+Word error rate / Letter error rate\\
 \end{frame}
 
+\begin{frame}
+\frametitle{\ns\ model with Big language model}
+\includegraphics[width=.86\textwidth]{../figures/sme1}
+
+\end{frame}
 
 
 \section*{Video}
@@ -132,7 +172,7 @@ a
 \begin{frame}
 \frametitle{Questions}
 \begin{center}
-Questions and Discussions
+Questions?
 \end{center}
 \end{frame}
 
