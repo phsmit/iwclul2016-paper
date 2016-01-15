@@ -1,7 +1,8 @@
 % !TEX root = ./presentation_screen.tex
 % !TEX encoding = UTF-8
 %
-%\usepackage[texencoding=utf8,backend=biber,style=authoryear-comp,bibstyle=authoryear,citestyle=authoryear-comp]{biblatex}
+\usepackage{csquotes}
+\usepackage[texencoding=utf8,backend=biber,style=authoryear-comp,bibstyle=authoryear,citestyle=authoryear-comp]{biblatex}
 
 
 \usepackage[english]{babel} 
@@ -29,12 +30,14 @@
 \usetikzlibrary{shapes.geometric,positioning,calc,fit,matrix,decorations.pathmorphing}
 \usepackage{tikz-qtree}
 \usepackage{graphicx}
-
+\setbeamerfont{footnote}{size=\tiny}
 
 \newcommand{\ns}{Northern Sámi}
+\newcommand{\ngram}{$n$-gram}
 
+\newcommand{\ds}[1]{\textsc{#1}}
 
-%\bibliography{topic}
+\bibliography{../mybib}
 
 \title{Automatic Speech Recognition for \ns\ with comparison to other Uralic Languages}
 %\subtitle{Computational pragmatics}
@@ -157,7 +160,70 @@ Word error rate / Letter error rate\\
 
 \end{frame}
 
+\begin{frame}
+\frametitle{Comparison to other Uralic Languages}
+\begin{tabular}{llp{4cm}r}
+ \textbf{Language} & \textbf{Gender} & \textbf{Title} & \textbf{Hours}\\\hline
+Estonian & Female &Nils Holgerssoni imeline teekond läbi Rootsi  & 16\\
+ Estonian & Male & Würst Gabriel ehk Pirita kloostri wiimsed päewad & 6\\
+ Finnish & Female & Syntymättömien sukupolvien Eurooppa & 12\\
+ Finnish & Male & Seitsemän veljestä & 13\\
+N-Sámi & Female & UIT-SME-TTSF & 3.3\\
+ N-Sámi & Male & UIT-SME-TTSM & 4.6\\
+\end{tabular}
+\end{frame}
 
+\begin{frame}
+\frametitle{Comparison to other Uralic Languages}
+2.5 hours of audio data 
+\begin{tabular}{ll|rr|rr}
+ & & \multicolumn{2}{|c|}{\textbf{\ds{Train+Wiki}}}  & \multicolumn{2}{|c}{\textbf{\ds{Big}}}\\
+\textbf{Language} & \textbf{Voice} & \textbf{WER} & \textbf{LER}& \textbf{{WER}} & \textbf{LER}\\\hline
+Estonian & EF1 & 39.6 & 15.8 & 25.0 & 11.4\\
+Estonian & EM1 & 39.2 & 13.3 & 25.5 & 9.6\\
+Finnish & FF1 & 25.2 &4.1& 8.9 & 2.1  \\
+Finnish & FM1 & 35.8 & 7.7 & 24.9 &  5.6 \\
+\ns & SF1 & 37.5 & 8.5 & 23.7  & 5.5 \\
+\ns & SM1 & 39.5 & 9.4& 20.9 & 4.9  \\
+\end{tabular}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Comparison to other Uralic Languages}
+\begin{tabular}{lr|rr|rr}
+ & & \multicolumn{2}{|c}{\textbf{2.5 hours}} & \multicolumn{2}{|c}{\textbf{All data}} \\
+ \textbf{Voice} & \textbf{\#hours}  & \textbf{WER} & \textbf{LER}& \textbf{{WER}} & \textbf{LER} \\\hline %& \textbf{\%+ hours} & \textbf{-WER/hour} \\\hline
+ EF1 & 8 & 25.0  & 11.4 & 18.8 & 8.3  \\
+ EM1& 4.5&25.5 & 9.6  & 23.2 & 8.4  \\
+ FF1 & 9  & 8.9 & 2.1  & 8.1 &  1.9  \\
+ FM1 & 10 & 24.9 & 5.6  & 19.8  & 3.7    \\
+SF1 & 2.5    & 23.7  & 5.5  & 23.7  & 5.5  \\
+SM1 & 3.5 & 20.9 & 4.9  & 18.1  & 4.2   \\
+\end{tabular}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{State-of-the art Uralic Languages}
+\begin{tabular}{llrrl}
+\textbf{Language} & \textbf{Description} & \textbf{WER} & \textbf{LER} & \textbf{}\\\hline
+Estonian & Broadcast conversations  & 17.9\% & &  \footfullcite{alumae2014recent} \\
+Estonian & Oral presentations  & 26.3\% & &  \\
+Finnish & Speecon testset  & & 2.9\%&  \footfullcite{pylkkonen2012} \\
+Estonian & Telephone speech &33.1\% & 11.9\% & \footfullcite{hirsimaki2009importance}\\
+Finnish & Telephone speech & 21.6\% & 6.8\% & \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}
+\frametitle{Future work}
+\begin{itemize}
+\item Expand recognizer to be Speaker Independent
+\end{itemize}
+
+\end{frame}
 \section*{Video}
 \begin{frame}
 \frametitle{Video}

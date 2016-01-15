@@ -1,3 +1,5 @@
 *.nav
 *.pdf
 *.snm
+*.bcf
+*.run.xml
