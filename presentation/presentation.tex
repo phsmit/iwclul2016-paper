@@ -65,7 +65,7 @@
 \begin{itemize}
 \item Former Helsinki University of Technology
 \item Prof. Mikko Kurimo
-\item Broad-ranged research in Speech Recognition and Language Modeling, with special focus on FInnish
+\item Broad-ranged research in Speech Recognition and Language Modeling, with special focus on Finnish
 \item Home of Morfessor\\[1cm]
 \item Speech technology for under-resourced languages
 \end{itemize}
@@ -87,8 +87,8 @@
 \frametitle{A diaglogue system for Northern Sami}
 \begin{itemize}
 \item WikiTalk for \ns
-\item Kids ask questions from Robot, and the Robot gives information by reading Wikipedia articles to them.
-\item Speech recognition and speech synthesis are needed for this application.
+\item Kids ask questions from Robot, and the Robot gives information by reading Wikipedia articles to them
+\item Speech recognition (ASR) and speech synthesis (TTS) are needed for this application
 \end{itemize}
 \end{frame}
 
@@ -104,7 +104,7 @@
 \begin{frame}
 \frametitle{Speech Technology for Northern Sami - Challenges}
 \begin{itemize}
-\item Only a limited amount of transcribed audio data is availabe for making asr/tts models
+\item Only a limited amount of data is available for making ASR/TTS models
 \end{itemize}
 \end{frame}
 
@@ -114,14 +114,20 @@
 \begin{frame}
 \frametitle{What is needed for speech recognition?}
 \begin{itemize}
-\item hi
+\item Corpus of aligned audio and text
+\item Big corpus of text data for language modeling
+\item Dictionaries/lexicons (or the expertise to generate them)
+\item Phonetic question sets (for decision tree clustering)
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Speaker-independent vs Speaker-dependent ASR}
 \begin{itemize}
-\item hi
+\item Speaker-independent (SI) systems works for any speaker of a language
+\item Speaker-dependent (SD) systems  only works for the training speaker
+\item SI systems need audio data from many different speakers (50-100 for decent results)
+\item SD system only needs data from a single speaker
 \end{itemize}
 \end{frame}
 
@@ -130,10 +136,31 @@
 \begin{frame}
 \frametitle{Challenges for Under-resourced Languages}
 \begin{itemize}
-\item Bootstrapping
+\item Audio Data
+\item Text Data
+\item Expertise
 \end{itemize}
 \end{frame}
 %
+
+\begin{frame}
+\frametitle{Solutions for Under-resourced Languages}
+\begin{itemize}
+\item Audio Data
+\begin{itemize}
+\item Audio books
+\end{itemize}
+\item Text Data
+\begin{itemize}
+\item Web scraping
+\end{itemize}
+\item Expertise
+\begin{itemize}
+\item Unsupervised methods
+\item Bootstrapping on related languages
+\end{itemize}
+\end{itemize}
+\end{frame}
 
 \section{Experiments}
 \begin{frame}
