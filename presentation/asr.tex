@@ -1,0 +1,21 @@
+% !TEX root = ./presentation.tex
+% !TEX encoding = UTF-8
+\begin{tikzpicture}[auto,scale=0.7,system/.style={draw,rectangle,rounded corners=3,minimum width=2cm,text width=1.8cm,text centered}]
+    \node [system] (fe) {Feature Extraction};
+    \node [system] (am) [right=of fe] {Acoustic Model};
+    \node [system] (lm) [right=of am] {Language Model};
+    \node [system] (d) [below=of lm] {Decoder};
+
+    \draw[->] (fe) edge  coordinate (fe2am) (am);
+    \draw[->] (am) |- (d);
+    \draw[->] (lm) -- (d.north);
+    \draw[<-,decorate,decoration={snake,pre length=6mm,segment length=2mm,amplitude=3mm}] (fe.west) -- ++(-2cm,0);
+
+   \visible<2->{\node [font=\footnotesize,above=of fe.north,align=center,yshift=-10]  (fee) {Aligned audio/text};
+                              \draw[->,very thick] (fee) -- (fe);}
+  
+  \visible<2->{\node [font=\footnotesize,above=of lm.north,align=center,yshift=-10]  (lme)  {Text corpus};
+                             \draw[->,very thick] (lme) -- (lm);}
+  \visible<2->{\node [font=\footnotesize,above=of am.north,align=center,yshift=-10]  (ame)  {Question Set\\Lexicon};
+                             \draw[->,very thick] (ame) -- (am);}
+\end{tikzpicture}

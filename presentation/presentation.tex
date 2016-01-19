@@ -43,12 +43,12 @@
 %\subtitle{Computational pragmatics}
 %\subtitle[Chpt 11.5,13]{Techniques for Noise Robustness in Automatic Speech Recognition, Chapter 11.5 \& 13}
 \author[Peter Smit]{Peter Smit, Juho Leinonen, Kristiina Jokinen, Mikko Kurimo}
-\institute[Aalto University/Helsinki University]{Aalto University \\ Helsinki University}
+\institute[Signal Processing and Acoustics]{Aalto University \\ Helsinki University}
 \date{January 20, 2016}
 
 
 \begin{document}
-\begin{frame}
+\begin{frame}p
 \titlepage
 \end{frame}
 
@@ -63,10 +63,15 @@
 \begin{frame}
 \frametitle{Aalto University Speech Recognition Research Group}
 \begin{itemize}
-\item Former Helsinki University of Technology
 \item Prof. Mikko Kurimo
-\item Broad-ranged research in Speech Recognition and Language Modeling, with special focus on Finnish
-\item Home of Morfessor\\[1cm]
+\item Broad-ranged research in Speech Recognition (asr) and Language Modeling
+\begin{itemize}
+\item Finnish ASR
+\item Noise robust ASR
+\item Subword modelling (Morfessor)
+\item Conversational speech, Speech Synthesis, Speech evaluation
+\end{itemize}
+
 \item Speech technology for under-resourced languages
 \end{itemize}
 \end{frame}
@@ -104,9 +109,19 @@
 \begin{frame}
 \frametitle{Speech Technology for Northern Sami - Challenges}
 \begin{itemize}
-\item Only a limited amount of data is available for making ASR/TTS models
+\item Only a limited amount of data and expertise is available for making ASR/TTS models
 \end{itemize}
 \end{frame}
+
+
+
+\section[Speech Recognition]{Automatic Speech Recognition (ASR)}
+\begin{frame}
+\frametitle{Automatic Speech Recognition}
+
+\input{asr}
+\end{frame}
+
 
 
 
@@ -115,11 +130,13 @@
 \frametitle{What is needed for speech recognition?}
 \begin{itemize}
 \item Corpus of aligned audio and text
-\item Big corpus of text data for language modeling
+\item Corpus of text data for language modeling
 \item Dictionaries/lexicons (or the expertise to generate them)
 \item Phonetic question sets (for decision tree clustering)
 \end{itemize}
 \end{frame}
+
+
 
 \begin{frame}
 \frametitle{Speaker-independent vs Speaker-dependent ASR}
@@ -133,6 +150,15 @@
 
 
 \section[Under-resourced]{ASR for Under-Resourced languages}
+\begin{frame}
+\frametitle{Speech Technology for Under-resourced Languages}
+\begin{itemize}
+\item Encourages language use
+\item Protects languages
+\item Preserves cultures
+\end{itemize}
+\end{frame}
+
 \begin{frame}
 \frametitle{Challenges for Under-resourced Languages}
 \begin{itemize}
@@ -162,6 +188,19 @@
 \end{itemize}
 \end{frame}
 
+
+%\section{Language modelling for Uralic languages}
+\begin{frame}
+\frametitle{Language modelling for Uralic languages}
+\begin{itemize}
+\item High number of word forms
+\item Subword models are standard for ASR
+\item Morfessor
+\item $n$-gram contexts are higher than for word models
+\end{itemize}
+\end{frame}
+
+
 \section{Experiments}
 \begin{frame}
 \frametitle{\ns\ model with Wikipedia language model}
@@ -188,7 +227,7 @@ Word error rate / Letter error rate\\
 \end{frame}
 
 \begin{frame}
-\frametitle{Comparison to other Uralic Languages}
+\frametitle{Comparison to other Uralic Languages - datasets}
 \begin{tabular}{llp{4cm}r}
  \textbf{Language} & \textbf{Gender} & \textbf{Title} & \textbf{Hours}\\\hline
 Estonian & Female &Nils Holgerssoni imeline teekond läbi Rootsi  & 16\\
@@ -218,7 +257,7 @@ Finnish & FM1 & 35.8 & 7.7 & 24.9 &  5.6 \\
 
 
 \begin{frame}
-\frametitle{Comparison to other Uralic Languages}
+\frametitle{Comparison to other Uralic Languages - increase hours}
 \begin{tabular}{lr|rr|rr}
  & & \multicolumn{2}{|c}{\textbf{2.5 hours}} & \multicolumn{2}{|c}{\textbf{All data}} \\
  \textbf{Voice} & \textbf{\#hours}  & \textbf{WER} & \textbf{LER}& \textbf{{WER}} & \textbf{LER} \\\hline %& \textbf{\%+ hours} & \textbf{-WER/hour} \\\hline
