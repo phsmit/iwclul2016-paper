@@ -92,7 +92,7 @@
 \frametitle{A dialogue system for \ns}
 \begin{itemize}
 \item WikiTalk for \ns
-\item Kids ask questions from Robot, and the Robot gives information by reading Wikipedia articles to them
+\item Kids ask questions from a robot, and the robot gives information by reading Wikipedia articles to them
 \item Speech recognition (ASR) and speech synthesis (TTS) are needed for this application
 \end{itemize}
 \end{frame}
@@ -101,7 +101,7 @@
 \frametitle{Previous work}
 \begin{itemize}
 \item Commercial Speech Synthesis system by Acapela Group\\
-\item Linguistic databases and tools by University of Tromsø\\[1cm]
+\item Data and tools by University of Tromsø\\[1cm]
 \item Master's thesis by Leinonen (2015)\\
 \end{itemize}
 \end{frame}
@@ -124,8 +124,6 @@
 
 
 
-
-\section[Speech Recognition]{Automatic Speech Recognition (ASR)}
 \begin{frame}
 \frametitle{What is needed for speech recognition?}
 \begin{itemize}
@@ -307,6 +305,34 @@ Finnish & Telephone speech & 21.6\% & 6.8\% & \\
 Questions?
 \end{center}
 \end{frame}
+
+\section{Appendices}
+
+\begin{frame}
+\frametitle{OOV rate}
+\begin{tabular}{lrr}
+& Word & Morph\\\hline
+Female &  22\% & 0\% \\
+Male & 20\% & 0\%\\
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Text corpora}
+\begin{tabular}{lp{2cm}rrr}
+\textbf{Language} & \textbf{Source} & \textbf{\#sent} & \textbf{ \#tokens} & \textbf{\#types}\\\hline
+Estonian & Wiki &  895k & 10M & 778k \\
+Estonian & newspaper + web + broadcast  & 19M  & 229M  & 3.8M \\
+Finnish & Wiki &  2.2M  & 22M & 1.5M \\
+Finnish & Kielipankki & 13M &  143M & 4.1M \\
+\ns & Wiki & 10k & 88k & 20k\\
+\ns & Den samiske tekstbanken & 990k & 12M & 475k\\
+\end{tabular}
+%
+\end{frame}
+
+
 
 
 %\begin{frame}[allowframebreaks]
